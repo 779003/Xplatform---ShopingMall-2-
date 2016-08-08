@@ -1,0 +1,793 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="productViewAndUpdate" classname="productViewAndUpdate" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="productViewAndUpdate_onload">
+    <Layouts>
+      <Layout>
+        <Edit id="Edit05" taborder="1" position2="absolute l:10 w:935 t:237 h:67" positiontype="position2"/>
+        <Static id="Static06" text="상품설명" onclick="Static06_onclick" position2="absolute l:16 w:84 t:219 h:13" positiontype="position2"/>
+        <Combo id="Combo00" taborder="1" codecolumn="codecolumn" datacolumn="datacolumn" position2="absolute l:824 w:123 t:161 h:21" positiontype="position2" index="-1" onitemchanged="Combo00_onitemchanged">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">유료</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">무료</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">방문</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button00" taborder="1" text="수정할 섬네일 선택" onclick="Button00_onclick" position2="absolute l:253 w:131 t:191 h:17" positiontype="position2"/>
+        <Button id="Button01" taborder="1" text="상품 설명 이미지 추가 등록" onclick="Button01_onclick" position2="absolute l:15 w:673 t:526 h:18" positiontype="position2"/>
+        <Grid id="Grid01" taborder="1" binddataset="productviewg" useinputpanel="false" position2="absolute l:16 w:186 t:47 h:141" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="171"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="114"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="기존 미리보기"/>
+              </Band>
+              <Band id="body">
+                <Cell style="background:stretch;selectbackground:stretch;backgroundimage:BIND(P_THUMBNAIL);"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid00" taborder="1" binddataset="ds_File" useinputpanel="false" cellsizingtype="col" autofittype="col" nodatatext="상품설명에 추가할 이미지" useselcolor="false" onheadclick="Grid00_onheadclick" ondrop="Grid00_ondrop" position2="absolute l:5 r:0.49% t:543 b:1.3%" positiontype="position2" dropformat="FILEDROP">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="30"/>
+                <Column size="30"/>
+                <Column size="200"/>
+                <Column size="247"/>
+                <Column size="70"/>
+                <Column size="8"/>
+                <Column size="99"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="74"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox"/>
+                <Cell col="1" text="No"/>
+                <Cell col="2" colspan="2" text="FileNm"/>
+                <Cell col="4" text="FilePath"/>
+                <Cell col="5" colspan="2" text="FileSize"/>
+                <Cell col="7" text="미리보기"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" text="bind:Chk"/>
+                <Cell col="1" style="align:center middle;" expr="expr:currow+1"/>
+                <Cell col="2" colspan="2" edittype="none">
+                  <Cell displaytype="image" text="bind:FileIco"/>
+                  <Cell col="1" edittype="readonly" style="align:left middle;" text="bind:FileNm"/>
+                </Cell>
+                <Cell col="4" edittype="readonly" style="align:left middle;padding:0 0 0 2;" text="bind:FilePath"/>
+                <Cell col="5" colspan="2">
+                  <Cell style="align:right middle;" text="bind:FileSize"/>
+                  <Cell col="1" text="bind:FileSizeGbn"/>
+                </Cell>
+                <Cell col="7" displaytype="image" style="background:#ddddddff stretch;background2:#ceced0ff stretch;selectbackground:stretch;backgroundimage:BIND(FilePath);barcolor:#a6c0f7ff;"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="5" style="align:left middle;"/>
+                <Cell col="5" colspan="2" style="align:right middle;" expr="expr:getSum(&quot;FileSize_Byte&quot;)&gt;(1*1024*1024)?Math.round(( getSum(&quot;FileSize_Byte&quot;) / 1024)/1024,2)+&quot; MB&quot;:Math.round(( getSum(&quot;FileSize_Byte&quot;) / 1024),2)+&quot; KB&quot;"/>
+                <Cell col="7"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button03" taborder="1" text="추가이미지 선택삭제" onclick="Button03_onclick" position2="absolute l:696 w:195 t:526 h:18" positiontype="position2"/>
+        <Button id="Button04" taborder="1" text="삭제" onclick="Button04_onclick" position2="absolute l:384 w:50 t:191 h:17" positiontype="position2"/>
+        <Button id="Button02" taborder="1" text="수정" onclick="Button02_onclick" position2="absolute l:536 w:179 t:8 h:30" positiontype="position2" style="font:Verdana,12,bold;"/>
+        <Grid id="Grid02" taborder="1" binddataset="ds_File2" useinputpanel="false" position2="absolute l:248 w:186 t:47 h:141" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="144"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="114"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="바꿀 미리보기"/>
+                <Cell col="1" displaytype="normal" edittype="none" text="확인"/>
+              </Band>
+              <Band id="body">
+                <Cell style="background:stretch;selectbackground:stretch;backgroundimage:BIND(FilePath);"/>
+                <Cell col="1" displaytype="checkbox" edittype="checkbox" text="bind:Chk"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <ImageViewer id="ImageViewer00" taborder="1" position2="absolute l:210 w:34 t:100 h:36" positiontype="position2" image="URL('..\cmmn\btn_page_next1.gif')" stretch="fixaspectratio"/>
+        <Grid id="Grid03" taborder="1" binddataset="image" useinputpanel="false" nodatatext="첨부파일이 없습니다." oncellclick="Grid00_oncellclick" position2="absolute l:5 w:994 t:353 h:159" positiontype="position2" autofittype="col" cellsizingtype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="431"/>
+                <Column size="228"/>
+                <Column size="259"/>
+                <Column size="57"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="71"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="파일명"/>
+                <Cell col="1" text="파일 사이즈"/>
+                <Cell col="2" text="미리보기"/>
+                <Cell col="3" text="삭제"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:I_ORINAME"/>
+                <Cell col="1" text="bind:I_SIZE"/>
+                <Cell col="2" style="background:#ddddddff stretch;background2:#ceced0ff stretch;selectbackground:#f7dba8ff stretch;backgroundimage:BIND(I_URL); :blinked {backgroundimage:BIND(I_URL);} :disabled {backgroundimage:BIND(I_URL);} :focused {background:quad;background2:quad;backgroundimage:BIND(I_URL);} :mouseover {backgroundimage:BIND(I_URL);}"/>
+                <Cell col="3" displaytype="checkbox" edittype="checkbox" text="bind:CHK"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" text="첨부된 파일 (삭제할 첨부파일을 체크하세요)" position2="absolute l:19 w:324 t:309 h:60" positiontype="position2"/>
+        <Static id="Static07" text="상품 열람 및 수정" position2="absolute l:65 w:249 t:17 h:24" positiontype="position2"/>
+        <Button id="Button05" taborder="1" text="목록으로 돌아가기" position2="absolute l:884 w:124 t:8 h:29" positiontype="position2" onclick="Button05_onclick"/>
+        <Static id="Static09" text="상품명" position2="absolute l:704 w:84 t:57 h:13" positiontype="position2"/>
+        <Static id="Static10" text="가격" position2="absolute l:704 w:84 t:83 h:13" positiontype="position2"/>
+        <Static id="Static11" text="재고" position2="absolute l:704 w:84 t:112 h:13" positiontype="position2"/>
+        <Static id="Static12" text="제조사" position2="absolute l:704 w:84 t:140 h:13" positiontype="position2"/>
+        <Static id="Static13" text="배송방법" position2="absolute l:704 w:84 t:167 h:13" positiontype="position2"/>
+        <Edit id="name" taborder="1" position2="absolute l:820 w:133 t:54 h:19" positiontype="position2"/>
+        <Edit id="price" taborder="1" position2="absolute l:820 w:133 t:81 h:19" positiontype="position2"/>
+        <Edit id="ea" taborder="1" position2="absolute l:819 w:133 t:110 h:19" positiontype="position2"/>
+        <Edit id="from" taborder="1" position2="absolute l:819 w:133 t:135 h:19" positiontype="position2"/>
+        <Button id="Button06" taborder="1" text="상품 삭제" position2="absolute l:733 w:115 t:11 h:27" positiontype="position2" onclick="Button06_onclick"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item4" compid="Edit05" propid="value" datasetid="productviewg" columnid="P_CONTENT"/>
+      <BindItem id="item6" compid="Combo00" propid="value" datasetid="productviewg" columnid="P_DELIVERY"/>
+      <BindItem id="item0" compid="name" propid="value" datasetid="productviewg" columnid="P_NAME"/>
+      <BindItem id="item1" compid="price" propid="value" datasetid="productviewg" columnid="P_PRICE"/>
+      <BindItem id="item2" compid="ea" propid="value" datasetid="productviewg" columnid="P_EA"/>
+      <BindItem id="item3" compid="from" propid="value" datasetid="productviewg" columnid="P_FROM"/>
+    </Bind>
+    <Objects>
+      <Dataset id="image" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="I_SEQ" type="INT" size="256"/>
+          <Column id="I_ORINAME" type="STRING" size="512"/>
+          <Column id="I_FILENAME" type="STRING" size="512"/>
+          <Column id="I_SIZE" type="INT" size="256"/>
+          <Column id="I_URL" type="STRING" size="256"/>
+          <Column id="I_UUID" type="STRING" size="256"/>
+          <Column id="I_DELCHK" type="INT" size="10"/>
+          <Column id="CHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_File" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Chk" type="STRING" size="256"/>
+          <Column id="FileNm" type="STRING" size="256"/>
+          <Column id="FilePath" type="STRING" size="256"/>
+          <Column id="FileSize" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSize_Byte" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSizeGbn" type="STRING" size="256"/>
+          <Column id="FileIco" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_File2" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Chk" type="STRING" size="256"/>
+          <Column id="FileNm" type="STRING" size="256"/>
+          <Column id="FilePath" type="STRING" size="256"/>
+          <Column id="FileSize" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSize_Byte" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSizeGbn" type="STRING" size="256"/>
+          <Column id="FileIco" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+          <Column id="Column2" type="STRING" size="256"/>
+          <Column id="Column3" type="STRING" size="256"/>
+          <Column id="Column4" type="STRING" size="256"/>
+          <Column id="Column5" type="STRING" size="256"/>
+          <Column id="Column6" type="STRING" size="256"/>
+          <Column id="Column7" type="STRING" size="256"/>
+          <Column id="Column8" type="STRING" size="256"/>
+          <Column id="Column9" type="STRING" size="256"/>
+          <Column id="Column10" type="STRING" size="256"/>
+          <Column id="Column11" type="STRING" size="256"/>
+          <Column id="Column12" type="STRING" size="256"/>
+          <Column id="Column13" type="STRING" size="256"/>
+          <Column id="Column14" type="STRING" size="256"/>
+          <Column id="Column15" type="STRING" size="256"/>
+          <Column id="Column16" type="STRING" size="256"/>
+          <Column id="Column17" type="STRING" size="256"/>
+          <Column id="Column18" type="STRING" size="256"/>
+          <Column id="Column19" type="STRING" size="256"/>
+          <Column id="Column20" type="STRING" size="256"/>
+          <Column id="Column21" type="STRING" size="256"/>
+          <Column id="Column22" type="STRING" size="256"/>
+          <Column id="Column23" type="STRING" size="256"/>
+          <Column id="Column24" type="STRING" size="256"/>
+          <Column id="Column25" type="STRING" size="256"/>
+          <Column id="Column26" type="STRING" size="256"/>
+          <Column id="Column27" type="STRING" size="256"/>
+          <Column id="Column28" type="STRING" size="256"/>
+          <Column id="Column29" type="STRING" size="256"/>
+          <Column id="Column30" type="STRING" size="256"/>
+          <Column id="Column31" type="STRING" size="256"/>
+          <Column id="Column32" type="STRING" size="256"/>
+          <Column id="Column33" type="STRING" size="256"/>
+          <Column id="Column34" type="STRING" size="256"/>
+          <Column id="Column35" type="STRING" size="256"/>
+          <Column id="Column36" type="STRING" size="256"/>
+          <Column id="Column37" type="STRING" size="256"/>
+          <Column id="Column38" type="STRING" size="256"/>
+          <Column id="Column39" type="STRING" size="256"/>
+          <Column id="Column40" type="STRING" size="256"/>
+          <Column id="Column41" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[		var seq = productviewg.getColumn(0,"P_SEQ");
+		//var name = productviewg.getColumn(0,"P_NAME");
+		//var price = productviewg.getColumn(0,"P_PRICE");
+		//var ea = productviewg.getColumn(0,"P_EA");
+		//var from = productviewg.getColumn(0,"P_FROM");	
+		//var delivery = productviewg.getColumn(0,"P_DELIVERY");	
+		//var content =  productviewg.getColumn(0,"P_CONTENT");
+		var uuid =  productviewg.getColumn(0,"P_UUID");
+	//	trace("uuid--"+uuid);
+function productViewAndUpdate_onload(obj:Form, e:LoadEventInfo)
+{
+onloadd()
+}
+function onloadd(){
+	ds_File.deleteAll();
+//trace( productviewg.getColumn(0,"P_PRICE"));
+
+	
+	//	transaction("트랜잭션의 이름","서버측 주소","input데이터셋","output데이터셋","클라이언트에서 서버측으로 변수를 보내는부분","비동기응답을 받는 함수이름");
+	
+	transaction("getImg"
+	,"DataURL::getProImg.do"
+	,"" //서버 데이터셋이름=클라이언트 데이터셋이름 (:u 는 변경한 레코드만 서버로 보냄) 여기서 이클립스로보낼때
+	,"image=image" //클라이언트==서버
+	,"sVal1="+uuid//sVal1 의 변수에 값을넣음 //변수에 공백이있으면 '' 를 이용
+	,"fn_callback");
+	
+	
+	//	Edit00.value = name;
+//		Edit01.value = "";
+//		Edit02.value = title;
+//		Edit03.value = content;
+}
+
+function Button05_onclick(obj:Button,  e:ClickEventInfo)
+{
+	formurl = "Base::productList.xfdl";
+}
+
+function Combo00_onitemchanged(obj:Combo, e:ItemChangeEventInfo)
+{
+	
+}
+
+function Button02_onclick(obj:Button,  e:ClickEventInfo)
+{
+var names = "";//삭제할 이미지들
+var check = ",";
+
+	for(var i=0; i<image.rowcount; i++)
+	{
+		if( image.getColumn(i,"CHK") == true )
+		{
+			
+			if(i==0){
+			names = names + image.getColumn(i,"I_SEQ");
+			}else{
+			names = names + check +  image.getColumn(i,"I_SEQ");
+			}
+			
+		}	
+	}
+
+
+
+
+	var svcURL = "DataURL::productUpdateX.do";
+	var inDS = "productviewg=productviewg";	
+	transaction("modify", svcURL, inDS, "", "sVal1="+names, "fn_callBack");	
+	
+	//formurl = "Base::productList.xfdl";
+}
+function fn_callBack(svcid, strErrCode, strErrMsg) 
+{
+	if (strErrCode <0) {
+	alert("실패했습니다");
+		alert(strErrCode + " : " + strErrMsg);
+	   return ;
+	   
+	}
+	
+	if (svcid == "save") {
+		alert("데이터가 DB에 저장되었습니다.");
+		
+	//formurl = "Base::productList.xfdl";
+	}
+		if (svcid == "delete") {
+		alert("상품이 삭제되었습니다.");
+		
+	formurl = "Base::productList.xfdl";
+	}
+	
+	if (svcid == "modify") {
+	
+	
+	
+		alert("데이터가 DB에 수정되었습니다.");
+	
+		//product.deleteAll();
+		//product.addRow();
+
+		if(1<=ds_File.rowcount){//파일 업로드
+		trace("파일업로드 ㄱ");
+			upload();
+			ds_File.deleteAll();
+		}
+		
+				if(1<=ds_File2.rowcount){//섬네일 업로드
+		trace("섬네일업로드 ㄱ");
+			upload2();
+			ds_File2.deleteAll();
+		}else{
+		onloadd()
+			}
+		onloadd()
+	}
+	
+}
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	fn_FileInfoSet();
+}
+
+function Button03_onclick(obj:Button,  e:ClickEventInfo)
+{
+		
+	Grid00.enableredraw = false;
+	for(var i=ds_File.rowcount-1; i>=0; i--){
+		if( ds_File.getColumn(i,"Chk") == true)
+			ds_File.deleteRow(i);
+	}	
+	Grid00.enableredraw = true;
+	
+//summary에 파일개수 표현
+	if( ds_File.rowcount == 0 ) {
+		Grid00.setCellProperty( "Head", 0, "text", 0);
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : 0개");
+	} else {
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File.rowcount + "개");
+	}
+}
+
+function upload()
+{
+	
+	var arrVFile = null; //초기화
+	arrVFile = new Array();
+	var objVirtualFile;  
+	var strFileNm;	
+	var cnt = 0;
+	
+	var objHttpObject = new HttpObject();
+	
+	objHttpObject.onload.setHandler(gfn_httpObject_onload);
+	objHttpObject.retry =1;
+		
+	if(ds_File.getCaseCount("Chk==true")<1){
+		alert("파일 선택이 되지 않아 글만 작성되었습니다.");
+	//	mainframe.childframe.formurl = "Base::boardList.xfdl";
+		//return;
+	}
+		
+	for(var i=0; i<ds_File.rowcount; i++)
+	{
+		if( ds_File.getColumn(i,"Chk") == true )
+		{
+			objVirtualFile = new VirtualFile(); 
+			strFileNm = ds_File.getColumn(i,"FilePath")
+			
+			//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+			if( strFileNm.indexOf(system.convertRealPath("%DOCUMENT%")))
+			{
+				fn_MoveFile(strFileNm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+				strFileNm = system.convertRealPath("%DOCUMENT%")+"temp\\"+ fn_getFileName(strFileNm);
+			}			
+
+			objVirtualFile.open(strFileNm, VirtualFile.openRead| VirtualFile.openBinary);
+			arrVFile[cnt] = objVirtualFile; //VirtualFile을 배열에 저장함. 
+			cnt++;
+		}	
+	}
+	
+	var rtn = objHttpObject.upload("DataURL::fileUploadX.do?PATH=upload&uuid="+uuid,FileDialog.LOAD, arrVFile,true);
+	
+	for(var j=0; j<arrVFile.length; j++){	
+		arrVFile[j].close(); //VirtualFile을 close처리
+	}		
+}
+
+
+//업로드버튼끝/////
+
+//HttpObject 이벤트
+var iCnt = 0; //다운로드 완료 여부 체크를 위한 변수
+function gfn_httpObject_onload(obj:HttpObject, e:HttpObjLoadEventInfo) 
+{
+	//trace("----------------------- gfn_httpObject_onload : errorcode = " + e.errorcode + "\n" + "errormsg = " + e.errormsg);
+	if (e.errorcode == 200) { //업로드 완료
+		alert("업로드 완료");
+		var objList = VirtualFile.getFileList(system.convertRealPath("%DOCUMENT%")+"temp\\", "*");
+		for(var i=0; i<objList.length; i++){
+			VirtualFile.delete(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ objList[i]); //임시파일을 지움.
+		}
+		//formurl = "Base::productList.xfdl";
+	//	mainframe.childframe.formurl = "Base::boardList.xfdl";			
+	}
+}
+//파일추가(드래그)
+function Grid00_ondrop(obj:Grid, e:GridDragEventInfo)
+{
+	var arrDragData = e.dragdata.getData(DragDataFormats.FILEDROP);	
+	fn_FileInfoSet(arrDragData);
+}
+
+//파일정보 세팅
+         
+function fn_FileInfoSet(data)
+{
+	var idx;
+	var nRow;
+	var strFullpath;
+	var vFile;
+	var nFileSize;
+	var arrRet;
+	
+	if( data == undefined ){ // 파일을 드래그 하였을때와 FileDialog로 선택할때를 분기처리	
+		var objFileDlg = new FileDialog();
+		arrRet = objFileDlg.open("FileOpen", FileDialog.MULTILOAD);
+	} else {	
+		arrRet = data;
+	}	
+	
+    if (!arrRet) return;	//파일을 선택하지 않은 경우	
+	
+	for(var i=0; i<arrRet.length; i++)
+	{
+		if( data == undefined )
+			strFullpath = arrRet[i].fullpath;
+		else	
+			strFullpath = arrRet[i];
+
+		nRow = ds_File.findRow("FileNm", fn_getFileName(strFullpath));
+		
+		if (nRow > -1) {
+			alert("중복되는 파일명이 있습니다.\nFile Name : " + fn_getFileName(strFullpath));			
+		} else {		
+			nFileSize = fn_getFileSize(strFullpath).split("/");
+			
+			idx = ds_File.addRow();
+			ds_File.setColumn(idx, "FileNm", fn_getFileName(strFullpath));
+			ds_File.setColumn(idx, "FilePath", strFullpath);
+			ds_File.setColumn(idx, "FileSize", nFileSize[0]);
+			ds_File.setColumn(idx, "FileSizeGbn", nFileSize[1]);
+			ds_File.setColumn(idx, "FileSize_Byte", nFileSize[2]);
+		}	
+	}
+	
+	ds_File.rowposition = 0;
+	Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File.rowcount + "개");	
+}
+//파일명 구하기
+function fn_getFileName(strPath){
+	var i_idx = strPath.lastIndexOf('\\') + 1;
+	var strFileName = "";
+	
+	if (i_idx > 0) 
+		strFileName = strPath.substr(i_idx);
+
+	return strFileName;
+}
+//파일 사이즈 구하기
+function fn_getFileSize(filenm, strUnit) 
+{
+	//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+	if( filenm.indexOf(system.convertRealPath("%DOCUMENT%")) < 0 )
+	{
+		fn_MoveFile(filenm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+		filenm = system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm);		
+	} 
+	
+	var vFile 	  = new VirtualFile;	
+	vFile.open(filenm, VirtualFile.openRead | VirtualFile.openText );
+	
+	var nFileSize =  vFile.getFileSize();
+	if( nFileSize > (1*1024*1024) )
+		nFileSize = Math.round((nFileSize / 1024)/1024,2) + "/MB" +"/"+nFileSize; //Mega byte
+	else if( nFileSize < 1024 )	
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize; //byte
+	else
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize;  //Kilo byte
+			
+	vFile.close();
+ 	VirtualFile.delete(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm)); //임시파일을 지움.
+	
+	
+	return nFileSize;
+}
+	
+	
+	//파일 옮기기 (내문서가 아닐 경우 temp 폴더로 옮김)
+function fn_MoveFile(filenm)
+{
+	fn_ChkFolder();
+	
+	var DownObj;
+	var objExt = new ExtCommon;
+	DownObj = objExt.readFile(system.convertRealPath(filenm), "OBJ");
+	objExt.writeFile(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm), DownObj);			
+}
+
+	
+	//내문서경로에 temp폴더 존재여부 체크하여 생성함
+function fn_ChkFolder()
+{
+	var bChk = VirtualFile.isExist(system.convertRealPath("%DOCUMENT%")+"temp\\");	
+	if( !bChk )	
+		VirtualFile.createDirectory(system.convertRealPath("%DOCUMENT%")+"temp\\",true);
+}
+		
+			
+			
+	
+			//파일 전체선택
+function Grid00_onheadclick(obj:Grid, e:GridClickEventInfo)
+{
+	Grid00.enableredraw = false;
+	if( Grid00.getCellText(-1,0) == "" || Grid00.getCellText(-1,0) == false){
+		Grid00.setCellProperty( "Head", 0, "text", 1);				
+		for(var i=0; i<ds_File.rowcount; i++){
+			ds_File.setColumn(i, "Chk", 1 );
+		}
+	} else {
+		Grid00.setCellProperty( "Head", 0, "text", 0);		
+		for(var i=0; i<ds_File.rowcount; i++){
+			ds_File.setColumn(i, "Chk", 0 );
+		}		
+	}	
+	Grid00.enableredraw = true;
+}
+			
+			
+			
+function fileDel_onclick(obj:Button,  e:ClickEventInfo)
+{
+	Grid00.enableredraw = false;
+	for(var i=ds_File.rowcount-1; i>=0; i--){
+		if( ds_File.getColumn(i,"Chk") == true)
+			ds_File.deleteRow(i);
+	}	
+	Grid00.enableredraw = true;
+	
+//summary에 파일개수 표현
+	if( ds_File.rowcount == 0 ) {
+		Grid00.setCellProperty( "Head", 0, "text", 0);
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : 0개");
+	} else {
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File.rowcount + "개");
+	}
+}
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+	fn_FileInfoSet2();
+}
+
+
+
+
+///////섬네일
+
+function fn_FileInfoSet2(data)
+{
+	var idx;
+	var nRow;
+	var strFullpath;
+	var vFile;
+	var nFileSize;
+	var arrRet;
+	
+	if( data == undefined ){ // 파일을 드래그 하였을때와 FileDialog로 선택할때를 분기처리	
+		var objFileDlg = new FileDialog();
+		arrRet = objFileDlg.open("FileOpen", FileDialog.MULTILOAD);
+	} else {	
+		arrRet = data;
+	}	
+	
+    if (!arrRet) return;	//파일을 선택하지 않은 경우	
+	
+	for(var i=0; i<arrRet.length; i++)
+	{
+		if( data == undefined )
+			strFullpath = arrRet[i].fullpath;
+		else	
+			strFullpath = arrRet[i];
+
+		nRow = ds_File2.findRow("FileNm", fn_getFileName(strFullpath));
+		
+		if (ds_File2.rowcount > 0) {
+			alert("섬네일이미지는 1개만 가능합니다. 변경을 원하시면 삭제버튼을 누르고 다시 등록해주세요.");			
+		} else {		
+			nFileSize = fn_getFileSize(strFullpath).split("/");
+			
+			idx = ds_File2.addRow();
+			ds_File2.setColumn(idx, "FileNm", fn_getFileName(strFullpath));
+			ds_File2.setColumn(idx, "FilePath", strFullpath);
+			ds_File2.setColumn(idx, "FileSize", nFileSize[0]);
+			ds_File2.setColumn(idx, "FileSizeGbn", nFileSize[1]);
+			ds_File2.setColumn(idx, "FileSize_Byte", nFileSize[2]);
+		}	
+	}
+	
+	ds_File2.rowposition = 0;
+//	Grid01.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File2.rowcount + "개");	
+}
+//파일명 구하기
+function fn_getFileName(strPath){
+	var i_idx = strPath.lastIndexOf('\\') + 1;
+	var strFileName = "";
+	
+	if (i_idx > 0) 
+		strFileName = strPath.substr(i_idx);
+
+	return strFileName;
+}
+//파일 사이즈 구하기
+function fn_getFileSize(filenm, strUnit) 
+{
+	//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+	if( filenm.indexOf(system.convertRealPath("%DOCUMENT%")) < 0 )
+	{
+		fn_MoveFile(filenm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+		filenm = system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm);		
+	} 
+	
+	var vFile 	  = new VirtualFile;	
+	vFile.open(filenm, VirtualFile.openRead | VirtualFile.openText );
+	
+	var nFileSize =  vFile.getFileSize();
+	if( nFileSize > (1*1024*1024) )
+		nFileSize = Math.round((nFileSize / 1024)/1024,2) + "/MB" +"/"+nFileSize; //Mega byte
+	else if( nFileSize < 1024 )	
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize; //byte
+	else
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize;  //Kilo byte
+			
+	vFile.close();
+ 	VirtualFile.delete(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm)); //임시파일을 지움.
+	
+	
+	return nFileSize;
+}
+	
+	
+	//파일 옮기기 (내문서가 아닐 경우 temp 폴더로 옮김)
+function fn_MoveFile(filenm)
+{
+	fn_ChkFolder();
+	
+	var DownObj;
+	var objExt = new ExtCommon;
+	DownObj = objExt.readFile(system.convertRealPath(filenm), "OBJ");
+	objExt.writeFile(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm), DownObj);			
+}
+
+	
+	//내문서경로에 temp폴더 존재여부 체크하여 생성함
+function fn_ChkFolder()
+{
+	var bChk = VirtualFile.isExist(system.convertRealPath("%DOCUMENT%")+"temp\\");	
+	if( !bChk )	
+		VirtualFile.createDirectory(system.convertRealPath("%DOCUMENT%")+"temp\\",true);
+}
+function Button04_onclick(obj:Button,  e:ClickEventInfo)
+{
+	Grid01.enableredraw = false;
+	for(var i=ds_File2.rowcount-1; i>=0; i--){
+		
+			ds_File2.deleteRow(i);
+	}	
+	Grid01.enableredraw = true;
+}
+//섬네일업로드
+function upload2()
+{
+	
+	var arrVFile = null; //초기화
+	arrVFile = new Array();
+	var objVirtualFile;  
+	var strFileNm;	
+	var cnt = 0;
+	
+	var objHttpObject = new HttpObject();
+	
+	objHttpObject.onload.setHandler(gfn_httpObject_onload);
+	objHttpObject.retry =1;
+		if(ds_File2.getCaseCount("Chk==true")<1){
+		alert("섬네일이미지를 체크하지 않아 적용이 되지 않았습니다.");
+		//mainframe.childframe.formurl = "Base::boardList.xfdl";
+		//return;
+	}
+	
+		
+	for(var i=0; i<ds_File2.rowcount; i++)
+	{
+		if( ds_File2.getColumn(i,"Chk") == true )
+		{
+			objVirtualFile = new VirtualFile(); 
+			strFileNm = ds_File2.getColumn(i,"FilePath")
+			
+			//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+			if( strFileNm.indexOf(system.convertRealPath("%DOCUMENT%")))
+			{
+				fn_MoveFile(strFileNm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+				strFileNm = system.convertRealPath("%DOCUMENT%")+"temp\\"+ fn_getFileName(strFileNm);
+			}			
+
+			objVirtualFile.open(strFileNm, VirtualFile.openRead| VirtualFile.openBinary);
+			arrVFile[cnt] = objVirtualFile; //VirtualFile을 배열에 저장함. 
+			cnt++;
+		}	
+	}
+
+	var rtn = objHttpObject.upload("DataURL::fileUploadX2.do?PATH=upload&uuid="+uuid,FileDialog.LOAD, arrVFile,true);
+	
+	for(var j=0; j<arrVFile.length; j++){	
+		arrVFile[j].close(); //VirtualFile을 close처리
+	}		
+}
+
+function Button06_onclick(obj:Button,  e:ClickEventInfo)
+{
+var seq = productviewg.getColumn(0,"P_SEQ");
+var svcURL = "DataURL::deleteProduct.do?seq="+seq;
+transaction("delete", svcURL, "", "", "", "fn_callBack");
+	
+}
+]]></Script>
+  </Form>
+</FDL>

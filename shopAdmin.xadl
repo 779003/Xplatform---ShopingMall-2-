@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="1.1">
+  <TypeDefinition url="default_typedef.xml"/>
+  <GlobalVariables url="globalvars.xml"/>
+  <Application id="shopAdmin" codepage="utf-8" language="Korean" loginformurl="" loginformstyle="" windowopeneffect="" windowcloseeffect="" version="" tracemode="" themeid="default.xtheme">
+    <Layout>
+      <MainFrame id="mf" title="maintitle" resizable="true" showtitlebar="true" showstatusbar="true" position="absolute 0 0 1024 800">
+        <TileFrameSet id="TileFrameSet0">
+          <Frames>
+            <TabFrame id="TabFrame0">
+              <TabFramePages>
+                <TabFramePage id="TabFramePage0" text="회원 관리" formurl="Base::accountList.xfdl"/>
+                <TabFramePage id="TabFramePage1" text="자유게시판 관리" formurl="Base::boardList.xfdl" enable="true"/>
+                <TabFramePage id="TabFramePage2" text="상품 관리" formurl="Base::productList.xfdl" enable="true"/>
+                <TabFramePage id="TabFramePage3" formurl="Base::qnaList.xfdl" text="Q&amp;A 관리"/>
+                <TabFramePage id="TabFramePage4" formurl="Base::orderList.xfdl" text="구매 및 결제내역"/>
+              </TabFramePages>
+            </TabFrame>
+          </Frames>
+        </TileFrameSet>
+      </MainFrame>
+    </Layout>
+    <ScreenInfo/>
+  </Application>
+  <Script type="xscript4.0"><![CDATA[]]></Script>
+</ADL>

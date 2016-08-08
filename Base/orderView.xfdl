@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="orderView" classname="orderView" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="orderView_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="구매 및 결제 내역 상세보기" onclick="Static00_onclick" position2="absolute l:72 w:264 t:4 h:60" positiontype="position2"/>
+        <Static id="Static01" text="주문코드 :" position2="absolute l:36 w:68 t:64 h:44" positiontype="position2"/>
+        <Static id="Static02" position2="absolute l:112 w:180 t:64 h:44" positiontype="position2"/>
+        <Static id="Static03" text="주문날짜 :" position2="absolute l:394 w:71 t:64 h:44" positiontype="position2"/>
+        <Static id="Static04" position2="absolute l:462 w:192 t:64 h:44" positiontype="position2"/>
+        <Static id="Static05" text="배송진행" position2="absolute l:486 w:60 t:8 h:44" positiontype="position2"/>
+        <Button id="Button00" taborder="1" position2="absolute l:560 w:104 t:8 h:44" positiontype="position2" onclick="Button00_onclick"/>
+        <Static id="Static06" text="배송비 결제 :" position2="absolute l:40 w:108 t:128 h:44" positiontype="position2"/>
+        <Static id="Static07" position2="absolute l:130 w:360 t:128 h:44" positiontype="position2"/>
+        <Static id="Static08" text="성명 :" position2="absolute l:40 w:78 t:200 h:44" positiontype="position2"/>
+        <Static id="Static09" position2="absolute l:79 w:111 t:200 h:44" positiontype="position2"/>
+        <Static id="Static10" text="전화번호 :" position2="absolute l:216 w:78 t:196 h:44" positiontype="position2"/>
+        <Static id="Static11" position2="absolute l:306 w:289 t:196 h:44" positiontype="position2"/>
+        <Static id="Static12" text="주소 :" position2="absolute l:40 w:110 t:252 h:44" positiontype="position2"/>
+        <Static id="Static13" position2="absolute l:80 w:907 t:252 h:44" positiontype="position2"/>
+        <Static id="Static14" position2="absolute l:132 w:860 t:300 h:44" positiontype="position2"/>
+        <Static id="Static15" text="주문 메시지 :" position2="absolute l:42 w:110 t:300 h:44" positiontype="position2"/>
+        <Static id="Static16" position2="absolute l:132 w:868 t:352 h:44" positiontype="position2"/>
+        <Static id="Static17" text="배송 메시지 :" position2="absolute l:42 w:110 t:352 h:44" positiontype="position2"/>
+        <Grid id="Grid00" taborder="1" binddataset="orderseet" useinputpanel="false" nodatatext="등록된 상품이 없습니다." oncellclick="Grid00_oncellclick" position2="absolute l:24 w:959 t:456 h:298" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="103"/>
+                <Column size="600"/>
+                <Column size="110"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="상품 seq"/>
+                <Cell col="1" text="상품명"/>
+                <Cell col="2" text="수량"/>
+              </Band>
+              <Band id="body">
+                <Cell style="selectbackground: ;" text="bind:O_PSEQ"/>
+                <Cell col="1" text="bind:O_PNAME"/>
+                <Cell col="2" text="bind:O_EA"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static18" text="주문 상품" position2="absolute l:41 w:110 t:416 h:44" positiontype="position2"/>
+        <Button id="Button01" taborder="1" text="목록으로" position2="absolute l:283 w:167 t:12 h:28" positiontype="position2" onclick="Button01_onclick"/>
+        <Static id="Static19" text="배송을 하셨으면 배송 보냄 버튼을 눌러주세요." position2="absolute l:689 w:298 t:10 h:31" positiontype="position2"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="orderseet" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="O_CODE" type="STRING" size="256"/>
+          <Column id="O_ID" type="STRING" size="256"/>
+          <Column id="O_PSEQ" type="INT" size="256"/>
+          <Column id="O_EA" type="INT" size="256"/>
+          <Column id="O_PRICE" type="INT" size="256"/>
+          <Column id="O_PHONE" type="STRING" size="256"/>
+          <Column id="O_ADRESS" type="STRING" size="256"/>
+          <Column id="O_OMESSAGE" type="STRING" size="512"/>
+          <Column id="O_DMESSAGE" type="STRING" size="512"/>
+          <Column id="O_TYPE" type="STRING" size="256"/>
+          <Column id="O_NAME" type="STRING" size="256"/>
+          <Column id="O_DATE" type="STRING" size="256"/>
+          <Column id="O_PNAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="Static02" propid="text" datasetid="orderseetlistviewg" columnid="OL_CODE"/>
+      <BindItem id="item1" compid="Static04" propid="text" datasetid="orderseet" columnid="O_DATE"/>
+      <BindItem id="item2" compid="Static07" propid="text" datasetid="orderseet" columnid="O_TYPE"/>
+      <BindItem id="item3" compid="Static09" propid="text" datasetid="orderseet" columnid="O_NAME"/>
+      <BindItem id="item4" compid="Static11" propid="text" datasetid="orderseet" columnid="O_PHONE"/>
+      <BindItem id="item5" compid="Static13" propid="text" datasetid="orderseet" columnid="O_ADRESS"/>
+      <BindItem id="item6" compid="Static14" propid="text" datasetid="orderseet" columnid="O_OMESSAGE"/>
+      <BindItem id="item7" compid="Static16" propid="text" datasetid="orderseet" columnid="O_DMESSAGE"/>
+    </Bind>
+    <Script type="xscript4.0"><![CDATA[var deliv =orderseetlistviewg.getColumn(0,"OL_DELIVERY");
+var code =  orderseetlistviewg.getColumn(0,"OL_CODE");
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	formurl ="Base::orderList.xfdl";
+}
+
+function orderView_onload(obj:Form, e:LoadEventInfo)
+{
+
+
+if(deliv == "배송 준비중"){
+Button00.text = "배송 보냄";
+}else{
+Button00.text = "배송보냄 취소";
+}
+
+
+	
+
+	
+	transaction("getos"
+	,"DataURL::getOrderSeet.do"
+	,"" 
+	,"orderseet=orderseet" 
+	,"sVal1="+code
+	,"fn_callBack");
+}
+
+
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+	if(deliv == "배송 준비중"){
+alert("배송 보냄으로 수정");
+var del = 1;
+transaction("orderSeetUpdate"
+	,"DataURL::orderSeetUpdate.do?del="+del
+	,"" 
+	,"" 
+	,"sVal1="+code
+	,"fn_callBack");
+
+}else{
+alert("배송 준비중 으로 수정");
+var del = 0;
+transaction("orderSeetUpdate"
+	,"DataURL::orderSeetUpdate.do?del="+del
+	,"" 
+	,"" 
+	,"sVal1="+code
+	,"fn_callBack");
+}
+
+
+}
+function fn_callBack(svcid, strErrCode, strErrMsg) 
+{
+
+
+
+	if (strErrCode <0) {
+	alert("실패했습니다");
+		alert(strErrCode + " : " + strErrMsg);
+	   return ;
+	   
+	}
+	
+	if (svcid == "getos") {
+	//alert("정보를 불러왔습니다.");
+		
+//	formurl = "Base::orderList.xfdl";
+	}
+	if (svcid == "orderSeetUpdate") {
+	//alert("처리완료");
+		
+	formurl = "Base::orderList.xfdl";
+	}
+	
+	
+}
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	var selectedId= orderseet.getColumn(orderseet.rowposition,"O_PSEQ")
+	var url = "http://localhost:8778/sample/selectProduct.do?searchKeyword2=not&pageIndex=1&selectedId="+selectedId;
+system.execBrowser(url); 
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="qnaList" classname="qnaList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="qnaList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="Q&amp;A 글 목록" onclick="Static00_onclick" position2="absolute l:72 w:120 t:4 h:60" positiontype="position2"/>
+        <ImageViewer id="ImageViewer00" taborder="1" image="URL('..\cmmn\btn_page_pre10.gif')" onclick="fn_first" position2="absolute l:337 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer01" taborder="1" image="URL('..\cmmn\btn_page_pre1.gif')" onclick="fn_prev" position2="absolute l:363 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer02" taborder="1" image="URL('..\cmmn\btn_page_next1.gif')" onclick="fn_next" position2="absolute l:476 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer03" taborder="1" image="URL('..\cmmn\btn_page_next10.gif')" onclick="fn_last" position2="absolute l:498 w:18 t:621 h:17" positiontype="position2"/>
+        <Combo id="keyField" taborder="1" codecolumn="codecolumn" datacolumn="datacolumn" index="0" displayrowcount="3" onitemchanged="keyField_onitemchanged" position2="absolute l:760 w:138 t:616 h:36" positiontype="position2" value="all" text="전체 보기">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">all</Col>
+                <Col id="datacolumn">전체 보기</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">noA</Col>
+                <Col id="datacolumn">미답변 보기</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button01" taborder="1" text="보기 모드 변경" onclick="Button01_onclick" position2="absolute l:899 w:90 t:616 h:36" positiontype="position2"/>
+        <Edit id="pageCount" taborder="1" position2="absolute l:406 w:52 t:616 h:27" positiontype="position2"/>
+        <Static id="currPageNum" position2="absolute l:544 w:41 t:614 h:36" positiontype="position2"/>
+        <Grid id="Grid00" taborder="1" binddataset="qna" useinputpanel="false" oncellclick="Grid00_oncellclick" position2="absolute l:36 w:959 t:68 h:540" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="81"/>
+                <Column size="133"/>
+                <Column size="338"/>
+                <Column size="126"/>
+                <Column size="137"/>
+                <Column size="110"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="상품SEQ"/>
+                <Cell col="1" text="문의유형"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="구매여부"/>
+                <Cell col="4" text="작성자"/>
+                <Cell col="5" text="답변 상태"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:Q_PSEQ"/>
+                <Cell col="1" text="bind:Q_TYPE"/>
+                <Cell col="2" text="bind:Q_TITLE"/>
+                <Cell col="3" text="bind:Q_BUY"/>
+                <Cell col="4" text="bind:Q_NAME"/>
+                <Cell col="5" text="bind:Q_STATE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="qna" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onload="qna_onload">
+        <ColumnInfo>
+          <Column id="Q_SEQ" type="INT" size="256"/>
+          <Column id="Q_NUM" type="INT" size="256"/>
+          <Column id="Q_PSEQ" type="INT" size="256"/>
+          <Column id="Q_NAME" type="STRING" size="256"/>
+          <Column id="Q_TITLE" type="STRING" size="256"/>
+          <Column id="Q_CONTENT" type="STRING" size="256"/>
+          <Column id="Q_RE_CHK" type="INT" size="256"/>
+          <Column id="Q_RE_SEQ" type="INT" size="256"/>
+          <Column id="Q_DATE" type="STRING" size="256"/>
+          <Column id="Q_UUID" type="STRING" size="256"/>
+          <Column id="Q_PASS" type="STRING" size="256"/>
+          <Column id="Q_TYPE" type="STRING" size="256"/>
+          <Column id="Q_STATE" type="STRING" size="256"/>
+          <Column id="Q_BUY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_keyField" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="TEXT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="TEXT">작성자</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="TEXT">제목</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">3</Col>
+            <Col id="TEXT">내용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">4</Col>
+            <Col id="TEXT">전체</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[var pageNum = 1;  // 현재 페이지 번호
+var startNum = 1; // 게시글 시작 번호
+var contentPerPage = 20; // 페이지 당 게시글 수 
+var rowCnt = 0; //겟시글 수
+var totPage = 0; //총 페이지수
+var Keyword = "";
+	var Keyfield = "";
+
+
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+ Keyword = "미답변";
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+qna.load();
+}
+
+
+function fn_next(obj:ImageViewer,  e:ClickEventInfo)
+{
+
+if(pageNum < totPage)
+{
+	pageNum = pageNum+1;
+	startNum = startNum +contentPerPage;
+//trace(startNum);
+}
+else
+{
+alert("마지막페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    qna.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+function fn_prev(obj:ImageViewer,  e:ClickEventInfo)
+{
+	if(pageNum > 1)
+{
+	pageNum = pageNum-1;
+	startNum = startNum -contentPerPage;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    qna.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+function fn_first(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != 1)
+{
+	pageNum = 1;
+	startNum = 1;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    qna.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function fn_last(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != totPage)
+{
+	pageNum = totPage;
+	
+	if(totPage * contentPerPage >rowCnt){
+	startNum = (totPage-1)*contentPerPage;
+}else{startNum = totPage*contentPerPage;}
+}
+
+else
+{
+alert("마지막 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    qna.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+
+//function Account_onload(obj:Dataset, e:DSLoadEventInfo)
+//{
+//	rowCnt = Account.getColumn(0,"TOTCNT"); //총 게시글 수
+//	   var test = rowCnt / contentPerPage; / 
+// totPage = Math.ceil(test);	   //총 페이지 수
+	
+//pageCount.value = pageNum+"/"+totPage;
+//}
+
+
+
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	qnaviewg.deleteAll();
+	qnaviewg.addRow();
+	
+	
+
+
+	qnaviewg.setColumn(0,"Q_SEQ",qna.getColumn(qna.rowposition,"Q_SEQ") );
+	qnaviewg.setColumn(0,"Q_NUM",qna.getColumn(qna.rowposition,"Q_NUM") );
+	qnaviewg.setColumn(0,"Q_PSEQ",qna.getColumn(qna.rowposition,"Q_PSEQ") );
+	qnaviewg.setColumn(0,"Q_NAME",qna.getColumn(qna.rowposition,"Q_NAME") );
+	qnaviewg.setColumn(0,"Q_TITLE",qna.getColumn(qna.rowposition,"Q_TITLE") );
+	qnaviewg.setColumn(0,"Q_CONTENT",qna.getColumn(qna.rowposition,"Q_CONTENT") );
+	qnaviewg.setColumn(0,"Q_RE_CHK",qna.getColumn(qna.rowposition,"Q_RE_CHK") );
+	qnaviewg.setColumn(0,"Q_RE_SEQ",qna.getColumn(qna.rowposition,"Q_RE_SEQ") );
+	qnaviewg.setColumn(0,"Q_DATE",qna.getColumn(qna.rowposition,"Q_DATE") );
+	qnaviewg.setColumn(0,"Q_UUID",qna.getColumn(qna.rowposition,"Q_UUID") );
+	qnaviewg.setColumn(0,"Q_PASS",qna.getColumn(qna.rowposition,"Q_PASS") );
+	qnaviewg.setColumn(0,"Q_TYPE",qna.getColumn(qna.rowposition,"Q_TYPE") );
+	qnaviewg.setColumn(0,"Q_STATE",qna.getColumn(qna.rowposition,"Q_STATE") );
+	qnaviewg.setColumn(0,"Q_BUY",qna.getColumn(qna.rowposition,"Q_BUY") );
+	
+	
+	
+	formurl = "Base::qnaView.xfdl";
+	
+}
+function qnaList_onload(obj:Form, e:LoadEventInfo)
+{
+	rowCnt = qna.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+
+qna.url = "DataURL::qnaListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+qna.load();
+    
+}
+
+function qna_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = qna.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+
+////
+pageCount.value = pageNum+"/"+totPage;
+    Keyword = "";
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ //qna.url = "DataURL::qnaListX.do?"
+ //				   + "pageNum="+pageNum+"&"
+//	 			   + "startNum="+startNum+"&"
+//				   + "contentPerPage="+contentPerPage+"&"
+//				   + "Keyword="+Keyword+"&"
+//				   + "Keyfield="+Keyfield;
+    
+//qna.load();
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="orderList" classname="orderList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="orderList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="구매 및 결제 내역" onclick="Static00_onclick" position2="absolute l:72 w:120 t:4 h:60" positiontype="position2"/>
+        <ImageViewer id="ImageViewer00" taborder="1" image="URL('..\cmmn\btn_page_pre10.gif')" onclick="fn_first" position2="absolute l:337 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer01" taborder="1" image="URL('..\cmmn\btn_page_pre1.gif')" onclick="fn_prev" position2="absolute l:363 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer02" taborder="1" image="URL('..\cmmn\btn_page_next1.gif')" onclick="fn_next" position2="absolute l:476 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer03" taborder="1" image="URL('..\cmmn\btn_page_next10.gif')" onclick="fn_last" position2="absolute l:498 w:18 t:621 h:17" positiontype="position2"/>
+        <Combo id="keyField" taborder="1" value="all" text="전체 보기" codecolumn="codecolumn" datacolumn="datacolumn" index="0" displayrowcount="3" onitemchanged="keyField_onitemchanged" position2="absolute l:760 w:138 t:616 h:36" positiontype="position2">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">all</Col>
+                <Col id="datacolumn">전체 보기</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">noD</Col>
+                <Col id="datacolumn">미배송 보기</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button01" taborder="1" text="보기 모드 변경" onclick="Button01_onclick" position2="absolute l:899 w:90 t:616 h:36" positiontype="position2"/>
+        <Edit id="pageCount" taborder="1" position2="absolute l:406 w:52 t:616 h:27" positiontype="position2"/>
+        <Static id="currPageNum" position2="absolute l:544 w:41 t:614 h:36" positiontype="position2"/>
+        <Grid id="Grid00" taborder="1" binddataset="orderseetlist" useinputpanel="false" oncellclick="Grid00_oncellclick" position2="absolute l:36 w:959 t:68 h:540" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="220"/>
+                <Column size="184"/>
+                <Column size="272"/>
+                <Column size="126"/>
+                <Column size="137"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="주문코드"/>
+                <Cell col="1" text="주문 날짜"/>
+                <Cell col="2" text="주문 상품"/>
+                <Cell col="3" text="주문자"/>
+                <Cell col="4" text="배송진행"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:OL_CODE"/>
+                <Cell col="1" text="bind:OL_DATE"/>
+                <Cell col="2" text="bind:OL_NAME"/>
+                <Cell col="3" text="bind:OL_ID"/>
+                <Cell col="4" text="bind:OL_DELIVERY"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="orderseetlist" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onload="orderseetlist_onload">
+        <ColumnInfo>
+          <Column id="OL_DELIVERY" type="STRING" size="256"/>
+          <Column id="OL_CODE" type="STRING" size="256"/>
+          <Column id="OL_DATE" type="STRING" size="256"/>
+          <Column id="OL_NAME" type="STRING" size="256"/>
+          <Column id="OL_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[var pageNum = 1;  // 현재 페이지 번호
+var startNum = 1; // 게시글 시작 번호
+var contentPerPage = 20; // 페이지 당 게시글 수 
+var rowCnt = 0; //겟시글 수
+var totPage = 0; //총 페이지수
+var Keyword = "";
+	var Keyfield = "";
+
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	Keyword = "배송 준비중";
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+orderseetlist.load();
+}
+
+function fn_next(obj:ImageViewer,  e:ClickEventInfo)
+{
+
+if(pageNum < totPage)
+{
+	pageNum = pageNum+1;
+	startNum = startNum +contentPerPage;
+//trace(startNum);
+}
+else
+{
+alert("마지막페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    orderseetlist.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+function fn_prev(obj:ImageViewer,  e:ClickEventInfo)
+{
+	if(pageNum > 1)
+{
+	pageNum = pageNum-1;
+	startNum = startNum -contentPerPage;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    orderseetlist.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+function fn_first(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != 1)
+{
+	pageNum = 1;
+	startNum = 1;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    orderseetlist.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function fn_last(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != totPage)
+{
+	pageNum = totPage;
+	
+	if(totPage * contentPerPage >rowCnt){
+	startNum = (totPage-1)*contentPerPage;
+}else{startNum = totPage*contentPerPage;}
+}
+
+else
+{
+alert("마지막 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    orderseetlist.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	orderseetlistviewg.deleteAll();
+	orderseetlistviewg.addRow();
+	
+	
+
+
+	orderseetlistviewg.setColumn(0,"OL_CODE",orderseetlist.getColumn(orderseetlist.rowposition,"OL_CODE") );
+	orderseetlistviewg.setColumn(0,"OL_DELIVERY",orderseetlist.getColumn(orderseetlist.rowposition,"OL_DELIVERY") );
+	
+	
+	
+	formurl = "Base::orderView.xfdl";
+	
+}
+
+function orderList_onload(obj:Form, e:LoadEventInfo)
+{
+	rowCnt = orderseetlist.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+
+orderseetlist.url = "DataURL::orderseetListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+orderseetlist.load();
+}
+
+
+
+function orderseetlist_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = orderseetlist.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+
+pageCount.value = pageNum+"/"+totPage;
+    Keyword = "";
+ Keyfield = keyField.value;
+}
+]]></Script>
+  </Form>
+</FDL>

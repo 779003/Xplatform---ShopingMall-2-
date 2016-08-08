@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="boardList" classname="boardList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="boardList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="회원 목록" position2="absolute l:72 w:120 t:4 h:60" positiontype="position2" onclick="Static00_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="1" position2="absolute l:337 w:18 t:621 h:17" positiontype="position2" onclick="fn_first" image="URL('..\cmmn\btn_page_pre10.gif')"/>
+        <ImageViewer id="ImageViewer01" taborder="1" image="URL('..\cmmn\btn_page_pre1.gif')" onclick="fn_prev" position2="absolute l:363 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer02" taborder="1" image="URL('..\cmmn\btn_page_next1.gif')" onclick="fn_next" position2="absolute l:476 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer03" taborder="1" image="URL('..\cmmn\btn_page_next10.gif')" onclick="fn_last" position2="absolute l:498 w:18 t:621 h:17" positiontype="position2"/>
+        <Edit id="KeyWord" taborder="1" position2="absolute l:756 w:151 t:616 h:35" positiontype="position2"/>
+        <Combo id="keyField" taborder="1" text="전체" position2="absolute l:672 w:86 t:616 h:36" positiontype="position2" type="dropdown" displayrowcount="3" datacolumn="datacolumn" codecolumn="codecolumn" onitemchanged="keyField_onitemchanged" value="B_ALL" index="3">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">all</Col>
+                <Col id="datacolumn">전체</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">id</Col>
+                <Col id="datacolumn">아이디</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">name</Col>
+                <Col id="datacolumn">이름</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button01" taborder="1" text="검색" position2="absolute l:907 w:90 t:616 h:36" positiontype="position2" onclick="Button01_onclick"/>
+        <Edit id="pageCount" taborder="1" position2="absolute l:406 w:52 t:616 h:27" positiontype="position2"/>
+        <Static id="currPageNum" position2="absolute l:544 w:41 t:614 h:36" positiontype="position2"/>
+        <Grid id="Grid00" taborder="1" useinputpanel="false" position2="absolute l:36 w:959 t:68 h:540" positiontype="position2" binddataset="Account" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="170"/>
+                <Column size="133"/>
+                <Column size="407"/>
+                <Column size="236"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="ID"/>
+                <Cell col="1" text="이름"/>
+                <Cell col="2" text="주소"/>
+                <Cell col="3" text="보유 적립금"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:A_ID"/>
+                <Cell col="1" text="bind:A_NAME"/>
+                <Cell col="2" text="bind:A_ADRESS"/>
+                <Cell col="3" text="bind:A_CASH"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_keyField" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="TEXT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="TEXT">작성자</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="TEXT">제목</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">3</Col>
+            <Col id="TEXT">내용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">4</Col>
+            <Col id="TEXT">전체</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="Account" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onload="Account_onload">
+        <ColumnInfo>
+          <Column id="A_ID" type="STRING" size="256"/>
+          <Column id="A_PW" type="STRING" size="256"/>
+          <Column id="A_HINT" type="STRING" size="256"/>
+          <Column id="A_RESPOND" type="STRING" size="256"/>
+          <Column id="A_NAME" type="STRING" size="256"/>
+          <Column id="A_ADRESS" type="STRING" size="256"/>
+          <Column id="A_PHONE" type="STRING" size="256"/>
+          <Column id="A_CASH" type="INT" size="256"/>
+          <Column id="TOTCNT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript4.0"><![CDATA[var pageNum = 1;  // 현재 페이지 번호
+var startNum = 1; // 게시글 시작 번호
+var contentPerPage = 20; // 페이지 당 게시글 수 
+var rowCnt = 0; //겟시글 수
+var totPage = 0; //총 페이지수
+var Keyword = "";
+	var Keyfield = "";
+
+
+
+
+
+
+
+
+
+
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)//검색버튼
+{
+ Keyword = KeyWord.text;
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+Account.load();
+ 
+
+}
+function fn_next(obj:ImageViewer,  e:ClickEventInfo)
+{
+
+if(pageNum < totPage)
+{
+	pageNum = pageNum+1;
+	startNum = startNum +contentPerPage;
+trace(startNum);
+}
+else
+{
+alert("마지막페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    Account.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function board2_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = Account.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+    
+    
+    
+}
+
+function fn_prev(obj:ImageViewer,  e:ClickEventInfo)
+{
+	if(pageNum > 1)
+{
+	pageNum = pageNum-1;
+	startNum = startNum -contentPerPage;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    Account.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function board2_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = Account.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+    
+    
+}
+
+function fn_first(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != 1)
+{
+	pageNum = 1;
+	startNum = 1;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    Account.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function fn_last(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != totPage)
+{
+	pageNum = totPage;
+	
+	if(totPage * contentPerPage >rowCnt){
+	startNum = (totPage-1)*contentPerPage;
+}else{startNum = totPage*contentPerPage;}
+}
+
+else
+{
+alert("마지막 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    Account.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+
+function Account_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = Account.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+}
+
+function accountList_onload(obj:Form, e:LoadEventInfo)
+{
+	//currPageNum.text = pageNum;
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+Account.load();
+}
+
+function boardList_onload(obj:Form, e:LoadEventInfo)
+{
+	
+	rowCnt = Account.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+    Keyword = KeyWord.text;
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ Account.url = "DataURL::accountListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+Account.load();
+ 
+    
+}
+
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	accviewg.deleteAll();
+	accviewg.addRow();
+	
+	var id = Account.getColumn(Account.rowposition,"A_ID");
+	
+
+
+	accviewg.setColumn(0,"A_ID",id);
+	accviewg.setColumn(0,"A_PW",Account.getColumn(Account.rowposition,"A_PW") );
+	accviewg.setColumn(0,"A_HINT",Account.getColumn(Account.rowposition,"A_HINT") );
+	accviewg.setColumn(0,"A_RESPOND",Account.getColumn(Account.rowposition,"A_RESPOND") );
+	accviewg.setColumn(0,"A_NAME",Account.getColumn(Account.rowposition,"A_NAME") );
+	accviewg.setColumn(0,"A_ADRESS",Account.getColumn(Account.rowposition,"A_ADRESS") );
+	accviewg.setColumn(0,"A_CASH",Account.getColumn(Account.rowposition,"A_CASH"));
+accviewg.setColumn(0,"A_PHONE",Account.getColumn(Account.rowposition,"A_PHONE"));
+	
+	formurl = "Base::accountView.xfdl";
+	
+	//MainFrame.TabFrame0.AccountTab.formurl = "Base::accountView.xfdl";
+}
+]]></Script>
+  </Form>
+</FDL>

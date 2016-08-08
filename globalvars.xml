@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GlobalVariables>
+  <Dataset id="bbsviewg">
+    <ColumnInfo>
+      <Column id="B_SEQ" type="INT" size="256"/>
+      <Column id="B_NUM" type="INT" size="256"/>
+      <Column id="B_NAME" type="STRING" size="256"/>
+      <Column id="B_TITLE" type="STRING" size="256"/>
+      <Column id="B_CONTENT" type="STRING" size="512"/>
+      <Column id="B_RE_CHK" type="INT" size="256"/>
+      <Column id="B_RE_SEQ" type="INT" size="256"/>
+      <Column id="B_DATE" type="DATE" size="256"/>
+      <Column id="B_UUID" type="STRING" size="256"/>
+      <Column id="B_PASS" type="STRING" size="256"/>
+      <Column id="B_COUNT" type="INT" size="256"/>
+      <Column id="NUM2" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="accviewg">
+    <ColumnInfo>
+      <Column id="A_ID" type="STRING" size="256"/>
+      <Column id="A_PW" type="STRING" size="256"/>
+      <Column id="A_HINT" type="STRING" size="256"/>
+      <Column id="A_RESPOND" type="STRING" size="256"/>
+      <Column id="A_NAME" type="STRING" size="256"/>
+      <Column id="A_ADRESS" type="STRING" size="256"/>
+      <Column id="A_PHONE" type="STRING" size="256"/>
+      <Column id="A_CASH" type="INT" size="256"/>
+      <Column id="TOTCNT" type="INT" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="productviewg">
+    <ColumnInfo>
+      <Column id="P_NAME" type="STRING" size="256"/>
+      <Column id="P_PRICE" type="INT" size="256"/>
+      <Column id="P_EA" type="INT" size="256"/>
+      <Column id="P_FROM" type="STRING" size="256"/>
+      <Column id="P_DELIVERY" type="INT" size="256"/>
+      <Column id="P_CONTENT" type="STRING" size="256"/>
+      <Column id="P_THUMBNAIL" type="STRING" size="512"/>
+      <Column id="P_SEQ" type="INT" size="256"/>
+      <Column id="P_DATE" type="STRING" size="256"/>
+      <Column id="P_UUID" type="STRING" size="256"/>
+      <Column id="TOTCNT" type="INT" size="10"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="qnaviewg">
+    <ColumnInfo>
+      <Column id="Q_SEQ" type="INT" size="256"/>
+      <Column id="Q_NUM" type="INT" size="256"/>
+      <Column id="Q_PSEQ" type="INT" size="256"/>
+      <Column id="Q_NAME" type="STRING" size="256"/>
+      <Column id="Q_TITLE" type="STRING" size="256"/>
+      <Column id="Q_CONTENT" type="STRING" size="256"/>
+      <Column id="Q_RE_CHK" type="INT" size="256"/>
+      <Column id="Q_RE_SEQ" type="INT" size="256"/>
+      <Column id="Q_DATE" type="STRING" size="256"/>
+      <Column id="Q_UUID" type="STRING" size="256"/>
+      <Column id="Q_PASS" type="STRING" size="256"/>
+      <Column id="Q_TYPE" type="STRING" size="256"/>
+      <Column id="Q_STATE" type="STRING" size="256"/>
+      <Column id="Q_BUY" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="orderseetlistviewg">
+    <ColumnInfo>
+      <Column id="OL_DELIVERY" type="STRING" size="256"/>
+      <Column id="OL_CODE" type="STRING" size="256"/>
+      <Column id="OL_DATE" type="STRING" size="256"/>
+      <Column id="OL_NAME" type="STRING" size="256"/>
+      <Column id="OL_ID" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+</GlobalVariables>

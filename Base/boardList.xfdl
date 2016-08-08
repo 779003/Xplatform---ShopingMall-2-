@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="boardList" classname="boardList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="boardList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="게시판" position2="absolute l:72 w:120 t:4 h:60" positiontype="position2" onclick="Static00_onclick"/>
+        <Grid id="Grid00" taborder="10" useinputpanel="false" position2="absolute l:36 w:959 t:68 h:540" positiontype="position2" binddataset="board2" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="466"/>
+                <Column size="167"/>
+                <Column size="169"/>
+                <Column size="54"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="글번호"/>
+                <Cell col="1" text="제목"/>
+                <Cell col="2" text="작성자"/>
+                <Cell col="3" text="작성일"/>
+                <Cell col="4" text="조회수"/>
+              </Band>
+              <Band id="body">
+                <Cell style="align:center;" text="bind:NUM2"/>
+                <Cell col="1" celltype="none" style="padding:0 0 0 10;" text="bind:B_TITLE" wordwrap="none"/>
+                <Cell col="2" style="align:center;" text="bind:B_NAME"/>
+                <Cell col="3" text="bind:B_DATE"/>
+                <Cell col="4" style="align:center;" text="bind:B_COUNT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="10" text="글쓰기" position2="absolute l:797 w:195 t:36 h:28" positiontype="position2" onclick="Button00_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="1" position2="absolute l:337 w:18 t:621 h:17" positiontype="position2" onclick="fn_first" image="URL('..\cmmn\btn_page_pre10.gif')"/>
+        <ImageViewer id="ImageViewer01" taborder="1" image="URL('..\cmmn\btn_page_pre1.gif')" onclick="fn_prev" position2="absolute l:363 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer02" taborder="1" image="URL('..\cmmn\btn_page_next1.gif')" onclick="fn_next" position2="absolute l:476 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer03" taborder="1" image="URL('..\cmmn\btn_page_next10.gif')" onclick="fn_last" position2="absolute l:498 w:18 t:621 h:17" positiontype="position2"/>
+        <Edit id="KeyWord" taborder="1" position2="absolute l:756 w:151 t:616 h:35" positiontype="position2"/>
+        <Combo id="keyField" taborder="1" text="전체" position2="absolute l:672 w:86 t:616 h:36" positiontype="position2" type="dropdown" displayrowcount="3" datacolumn="datacolumn" codecolumn="codecolumn" onitemchanged="keyField_onitemchanged" value="B_ALL" index="3">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">all</Col>
+                <Col id="datacolumn">전체</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">title</Col>
+                <Col id="datacolumn">제목</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">content</Col>
+                <Col id="datacolumn">내용</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">name</Col>
+                <Col id="datacolumn">작성자</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button01" taborder="1" text="검색" position2="absolute l:907 w:90 t:616 h:36" positiontype="position2" onclick="Button01_onclick"/>
+        <Edit id="pageCount" taborder="1" position2="absolute l:406 w:52 t:616 h:27" positiontype="position2"/>
+        <Static id="currPageNum" position2="absolute l:544 w:41 t:614 h:36" positiontype="position2"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="board2" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onload="board2_onload">
+        <ColumnInfo>
+          <Column id="B_SEQ" type="INT" size="256"/>
+          <Column id="B_NUM" type="INT" size="256"/>
+          <Column id="B_NAME" type="STRING" size="256"/>
+          <Column id="B_TITLE" type="STRING" size="256"/>
+          <Column id="B_CONTENT" type="STRING" size="512"/>
+          <Column id="B_RE_CHK" type="INT" size="256"/>
+          <Column id="B_RE_SEQ" type="INT" size="256"/>
+          <Column id="B_DATE" type="DATE" size="256"/>
+          <Column id="B_UUID" type="STRING" size="256"/>
+          <Column id="B_PASS" type="STRING" size="256"/>
+          <Column id="B_COUNT" type="INT" size="256"/>
+          <Column id="pagecount" type="INT" size="256"/>
+          <Column id="TOTCNT" type="INT" size="10"/>
+          <Column id="NUM2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_keyField" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="TEXT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="TEXT">작성자</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="TEXT">제목</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">3</Col>
+            <Col id="TEXT">내용</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">4</Col>
+            <Col id="TEXT">전체</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript4.0"><![CDATA[var pageNum = 1;  // 현재 페이지 번호
+var startNum = 1; // 게시글 시작 번호
+var contentPerPage = 20; // 페이지 당 게시글 수 
+var rowCnt = 0; //겟시글 수
+var totPage = 0; //총 페이지수
+var Keyword = "";
+	var Keyfield = "";
+
+function boardList_onload(obj:Form, e:LoadEventInfo)
+{
+
+
+	//currPageNum.text = pageNum;
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+board2.load();
+ 
+ 
+    
+
+}
+
+
+
+
+
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+bbsviewg.deleteAll();
+	bbsviewg.addRow();
+	var num = board2.getColumn(board2.rowposition,"B_NUM");
+	var name = board2.getColumn(board2.rowposition,"B_NAME");
+	var title = board2.getColumn(board2.rowposition,"B_TITLE");
+	var content = board2.getColumn(board2.rowposition,"B_CONTENT");
+	var date = board2.getColumn(board2.rowposition,"B_DATE");
+	var count = board2.getColumn(board2.rowposition,"B_COUNT");
+	
+	var seq = board2.getColumn(board2.rowposition,"B_SEQ");
+	var reChk = board2.getColumn(board2.rowposition,"B_RE_CHK");
+	var reSeq = board2.getColumn(board2.rowposition,"B_RE_SEQ");
+	var uuid = board2.getColumn(board2.rowposition,"B_UUID");
+	var pass = board2.getColumn(board2.rowposition,"B_PASS");
+	var num2 = board2.getColumn(board2.rowposition,"NUM2");
+	
+	bbsviewg.setColumn(0,"B_SEQ",seq );
+	bbsviewg.setColumn(0,"B_NUM",num );
+	bbsviewg.setColumn(0,"B_NAME",name );
+	bbsviewg.setColumn(0,"B_TITLE",title );
+	bbsviewg.setColumn(0,"B_CONTENT",content );
+	bbsviewg.setColumn(0,"B_RE_CHK",reChk );
+	bbsviewg.setColumn(0,"B_RE_SEQ",reSeq );
+	bbsviewg.setColumn(0,"B_DATE",date );
+	bbsviewg.setColumn(0,"B_UUID",uuid );
+	bbsviewg.setColumn(0,"B_PASS",pass );
+	bbsviewg.setColumn(0,"NUM2",num2 );
+	bbsviewg.setColumn(0,"B_COUNT",count +1 );
+	
+	formurl = "Base::boardView.xfdl";
+}
+
+
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+		formurl = "Base::boardWrite.xfdl";
+}
+
+
+
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+ Keyword = KeyWord.text;
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+board2.load();
+ 
+
+}
+function fn_next(obj:ImageViewer,  e:ClickEventInfo)
+{
+
+if(pageNum < totPage)
+{
+	pageNum = pageNum+1;
+	startNum = startNum +contentPerPage;
+trace(startNum);
+}
+else
+{
+alert("마지막페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    board2.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function board2_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = board2.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+    
+    
+    
+}
+
+function fn_prev(obj:ImageViewer,  e:ClickEventInfo)
+{
+	if(pageNum > 1)
+{
+	pageNum = pageNum-1;
+	startNum = startNum -contentPerPage;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    board2.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+
+function fn_first(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != 1)
+{
+	pageNum = 1;
+	startNum = 1;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    board2.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function fn_last(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != totPage)
+{
+	pageNum = totPage;
+	
+	if(totPage * contentPerPage >rowCnt){
+	startNum = (totPage-1)*contentPerPage;
+}else{startNum = totPage*contentPerPage;}
+}
+
+else
+{
+alert("마지막 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ board2.url = "DataURL::freeBbsX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    board2.load();
+//pageCount.value = pageNum+"페이지";
+}
+]]></Script>
+  </Form>
+</FDL>

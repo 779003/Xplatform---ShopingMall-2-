@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="productList" classname="productList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="productList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="상품 목록" position2="absolute l:72 w:120 t:4 h:60" positiontype="position2" onclick="Static00_onclick"/>
+        <Grid id="Grid00" taborder="10" useinputpanel="false" position2="absolute l:36 w:959 t:68 h:540" positiontype="position2" binddataset="product" oncellclick="Grid00_oncellclick" nodatatext="등록된 상품이 없습니다.">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="112"/>
+                <Column size="229"/>
+                <Column size="110"/>
+                <Column size="135"/>
+                <Column size="104"/>
+                <Column size="242"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="80"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="섬네일"/>
+                <Cell col="1" text="상품명"/>
+                <Cell col="2" text="재고"/>
+                <Cell col="3" text="제조사"/>
+                <Cell col="4" text="배송방법"/>
+                <Cell col="5" text="가격"/>
+              </Band>
+              <Band id="body">
+                <Cell style="background:stretch;background2:stretch;selectbackground:stretch;backgroundimage:BIND(P_THUMBNAIL);"/>
+                <Cell col="1" text="bind:P_NAME"/>
+                <Cell col="2" text="bind:P_EA"/>
+                <Cell col="3" text="bind:P_FROM"/>
+                <Cell col="4" text="bind:P_DELIVERY"/>
+                <Cell col="5" text="bind:P_PRICE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="10" text="상품 등록" position2="absolute l:797 w:195 t:36 h:28" positiontype="position2" onclick="Button00_onclick"/>
+        <ImageViewer id="ImageViewer00" taborder="1" position2="absolute l:337 w:18 t:621 h:17" positiontype="position2" onclick="fn_first" image="URL('..\cmmn\btn_page_pre10.gif')"/>
+        <ImageViewer id="ImageViewer01" taborder="1" image="URL('..\cmmn\btn_page_pre1.gif')" onclick="fn_prev" position2="absolute l:363 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer02" taborder="1" image="URL('..\cmmn\btn_page_next1.gif')" onclick="fn_next" position2="absolute l:476 w:18 t:621 h:17" positiontype="position2"/>
+        <ImageViewer id="ImageViewer03" taborder="1" image="URL('..\cmmn\btn_page_next10.gif')" onclick="fn_last" position2="absolute l:498 w:18 t:621 h:17" positiontype="position2"/>
+        <Edit id="KeyWord" taborder="1" position2="absolute l:756 w:151 t:616 h:35" positiontype="position2"/>
+        <Combo id="keyField" taborder="1" text="전체" position2="absolute l:672 w:86 t:616 h:36" positiontype="position2" type="dropdown" displayrowcount="3" datacolumn="datacolumn" codecolumn="codecolumn" onitemchanged="keyField_onitemchanged" value="B_ALL" index="3">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">all</Col>
+                <Col id="datacolumn">전체</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">name</Col>
+                <Col id="datacolumn">상품명</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">from</Col>
+                <Col id="datacolumn">제조사</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Button id="Button01" taborder="1" text="검색" position2="absolute l:907 w:90 t:616 h:36" positiontype="position2" onclick="Button01_onclick"/>
+        <Edit id="pageCount" taborder="1" position2="absolute l:406 w:52 t:616 h:27" positiontype="position2"/>
+        <Static id="currPageNum" position2="absolute l:544 w:41 t:614 h:36" positiontype="position2"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="product" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onload="product_onload">
+        <ColumnInfo>
+          <Column id="P_NAME" type="STRING" size="256"/>
+          <Column id="P_PRICE" type="INT" size="256"/>
+          <Column id="P_EA" type="INT" size="256"/>
+          <Column id="P_FROM" type="STRING" size="256"/>
+          <Column id="P_DELIVERY" type="INT" size="256"/>
+          <Column id="P_CONTENT" type="STRING" size="256"/>
+          <Column id="P_THUMBNAIL" type="STRING" size="512"/>
+          <Column id="P_SEQ" type="INT" size="256"/>
+          <Column id="P_DATE" type="STRING" size="256"/>
+          <Column id="P_UUID" type="STRING" size="256"/>
+          <Column id="TOTCNT" type="INT" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript4.0"><![CDATA[var pageNum = 1;  // 현재 페이지 번호
+var startNum = 1; // 게시글 시작 번호
+var contentPerPage = 5; // 페이지 당 게시글 수 
+var rowCnt = 0; //겟시글 수
+var totPage = 0; //총 페이지수
+var Keyword = "";
+	var Keyfield = "";
+
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+ formurl= "Base::product.xfdl";
+}
+
+
+function productList_onload(obj:Form, e:LoadEventInfo)
+{
+	 product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+product.load();
+}
+
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	productviewg.deleteAll();
+	productviewg.addRow();
+	
+	
+	productviewg.setColumn(0,"P_SEQ",product.getColumn(product.rowposition,"P_SEQ"));
+	productviewg.setColumn(0,"P_NAME",product.getColumn(product.rowposition,"P_NAME"));
+	productviewg.setColumn(0,"P_PRICE",product.getColumn(product.rowposition,"P_PRICE"));
+	productviewg.setColumn(0,"P_EA",product.getColumn(product.rowposition,"P_EA"));
+	productviewg.setColumn(0,"P_FROM",product.getColumn(product.rowposition,"P_FROM"));
+	productviewg.setColumn(0,"P_DELIVERY",product.getColumn(product.rowposition,"P_DELIVERY"));
+	productviewg.setColumn(0,"P_CONTENT",product.getColumn(product.rowposition,"P_CONTENT"));
+	productviewg.setColumn(0,"P_DATE",product.getColumn(product.rowposition,"P_DATE"));
+	//productviewg.setColumn(0,"P_COUNT",product.getColumn(product.rowposition,"P_COUNT") );
+	productviewg.setColumn(0,"P_THUMBNAIL",product.getColumn(product.rowposition,"P_THUMBNAIL"));
+	productviewg.setColumn(0,"P_UUID",product.getColumn(product.rowposition,"P_UUID"));
+	
+	
+	formurl = "Base::productViewAndUpdate.xfdl";
+}
+
+
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	Keyword = KeyWord.text;
+ Keyfield = keyField.value;
+
+	//currPageNum.text = pageNum;
+ product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+    
+product.load();
+ 
+}
+function fn_next(obj:ImageViewer,  e:ClickEventInfo)
+{
+
+if(pageNum < totPage)
+{
+	pageNum = pageNum+1;
+	startNum = startNum +contentPerPage;
+trace(startNum);
+}
+else
+{
+alert("마지막페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    product.load();
+//pageCount.value = pageNum+"페이지";
+}
+function product_onload(obj:Dataset, e:DSLoadEventInfo)
+{
+	rowCnt = product.getColumn(0,"TOTCNT"); //총 게시글 수
+	   var test = rowCnt / contentPerPage;  
+ totPage = Math.ceil(test);	   //총 페이지 수
+	
+pageCount.value = pageNum+"/"+totPage;
+}
+
+
+function fn_prev(obj:ImageViewer,  e:ClickEventInfo)
+{
+	if(pageNum > 1)
+{
+	pageNum = pageNum-1;
+	startNum = startNum -contentPerPage;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	
+	
+ product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    product.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+
+
+
+function fn_first(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != 1)
+{
+	pageNum = 1;
+	startNum = 1;
+}
+else
+{
+alert("처음 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    product.load();
+//pageCount.value = pageNum+"페이지";
+}
+
+function fn_last(obj:ImageViewer,  e:ClickEventInfo)
+{
+		if(pageNum != totPage)
+{
+	pageNum = totPage;
+	
+	if(totPage * contentPerPage >rowCnt){
+	startNum = (totPage-1)*contentPerPage;
+}else{startNum = totPage*contentPerPage;}
+}
+
+else
+{
+alert("마지막 페이지입니다.");
+}	
+
+
+
+	
+var Keyword = "";
+	var Keyfield = "";
+	//currPageNum.text = pageNum;
+	
+ product.url = "DataURL::productListX.do?"
+ 				   + "pageNum="+pageNum+"&"
+	 			   + "startNum="+startNum+"&"
+				   + "contentPerPage="+contentPerPage+"&"
+				   + "Keyword="+Keyword+"&"
+				   + "Keyfield="+Keyfield;
+	
+    product.load();
+//pageCount.value = pageNum+"페이지";
+}
+]]></Script>
+  </Form>
+</FDL>

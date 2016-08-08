@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="boardWrite" classname="boardWrite" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="boardWrite_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="글쓰기" position2="absolute l:24 w:120 t:8 h:60" positiontype="position2" style="font:Verdana,18,bold;" onclick="Static00_onclick"/>
+        <Static id="Static01" text="작성자" position2="absolute l:24 w:48 t:36 h:60" positiontype="position2"/>
+        <Static id="Static02" text="비번" position2="absolute l:288 w:48 t:36 h:60" positiontype="position2"/>
+        <Edit id="Edit01" taborder="1" position2="absolute l:328 w:140 t:58 h:20" positiontype="position2" password="true"/>
+        <Static id="Static03" text="제목" position2="absolute l:24 w:48 t:92 h:60" positiontype="position2"/>
+        <Edit id="Edit02" taborder="1" position2="absolute l:82 w:386 t:112 h:20" positiontype="position2"/>
+        <Static id="Static04" text="내용" position2="absolute l:488 w:48 t:36 h:60" positiontype="position2"/>
+        <Edit id="Edit03" taborder="1" position2="absolute l:526 w:486 t:58 h:128" positiontype="position2"/>
+        <Static id="Static05" text="파일 첨부" position2="absolute l:8 w:64 t:194 h:38" positiontype="position2"/>
+        <Button id="Button00" taborder="1" text="취소" position2="absolute l:188 w:102 t:519 h:50" positiontype="position2" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="1" text="작성" position2="absolute l:79 w:102 t:519 h:50" positiontype="position2" onclick="fn_save"/>
+        <Edit id="Edit00" taborder="1" position2="absolute l:82 w:188 t:56 h:20" positiontype="position2"/>
+        <Button id="fileAdd" taborder="1" text="파일찾기" position2="absolute l:80 w:67 t:202 h:22" positiontype="position2" onclick="Button02_onclick"/>
+        <Button id="fileDel" taborder="1" text="삭제" onclick="fileDel_onclick" position2="absolute l:155 w:54 t:202 h:22" positiontype="position2"/>
+        <Button id="btn_Upload" taborder="1" text="파일 올리기" onclick="btn_Upload_onclick" class="btn_WF_crud" position2="absolute r:736 w:73 t:202 h:22" positiontype="position2" style="font:dotum,8, bold;" userdata="A=T"/>
+        <Grid id="Grid00" taborder="1" binddataset="ds_File" useinputpanel="false" cellsizingtype="col" autofittype="col" nodatatext="첨부파일을&#13;&#10;마우스로 끌어 넣으세요" useselcolor="false" onheadclick="Grid00_onheadclick" ondrop="Grid00_ondrop" position2="absolute l:2 r:0.78% t:226 b:34.38%" positiontype="position2" dropformat="FILEDROP">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="30"/>
+                <Column size="30"/>
+                <Column size="200"/>
+                <Column size="247"/>
+                <Column size="70"/>
+                <Column size="8"/>
+                <Column size="99"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="74"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox"/>
+                <Cell col="1" text="No"/>
+                <Cell col="2" colspan="2" text="FileNm"/>
+                <Cell col="4" text="FilePath"/>
+                <Cell col="5" colspan="2" text="FileSize"/>
+                <Cell col="7" text="미리보기"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" text="bind:Chk"/>
+                <Cell col="1" style="align:center middle;" expr="expr:currow+1"/>
+                <Cell col="2" colspan="2" edittype="none">
+                  <Cell displaytype="image" text="bind:FileIco"/>
+                  <Cell col="1" edittype="readonly" style="align:left middle;" text="bind:FileNm"/>
+                </Cell>
+                <Cell col="4" edittype="readonly" style="align:left middle;padding:0 0 0 2;" text="bind:FilePath"/>
+                <Cell col="5" colspan="2">
+                  <Cell style="align:right middle;" text="bind:FileSize"/>
+                  <Cell col="1" text="bind:FileSizeGbn"/>
+                </Cell>
+                <Cell col="7" displaytype="image" style="background:#ddddddff stretch;background2:#ceced0ff stretch;selectbackground:stretch;backgroundimage:BIND(FilePath);barcolor:#a6c0f7ff;"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="5" style="align:left middle;"/>
+                <Cell col="5" colspan="2" style="align:right middle;" expr="expr:getSum(&quot;FileSize_Byte&quot;)&gt;(1*1024*1024)?Math.round(( getSum(&quot;FileSize_Byte&quot;) / 1024)/1024,2)+&quot; MB&quot;:Math.round(( getSum(&quot;FileSize_Byte&quot;) / 1024),2)+&quot; KB&quot;"/>
+                <Cell col="7"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Edit00" propid="value" datasetid="board2" columnid="B_NAME"/>
+      <BindItem id="item1" compid="Edit01" propid="value" datasetid="board2" columnid="B_PASS"/>
+      <BindItem id="item2" compid="Edit02" propid="value" datasetid="board2" columnid="B_TITLE"/>
+      <BindItem id="item3" compid="Edit03" propid="value" datasetid="board2" columnid="B_CONTENT"/>
+    </Bind>
+    <Objects>
+      <Dataset id="board2" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="B_SEQ" type="INT" size="256"/>
+          <Column id="B_NUM" type="INT" size="256"/>
+          <Column id="B_NAME" type="STRING" size="256"/>
+          <Column id="B_TITLE" type="STRING" size="256"/>
+          <Column id="B_CONTENT" type="STRING" size="512"/>
+          <Column id="B_RE_CHK" type="INT" size="256"/>
+          <Column id="B_RE_SEQ" type="INT" size="256"/>
+          <Column id="B_DATE" type="DATE" size="256"/>
+          <Column id="B_UUID" type="STRING" size="256"/>
+          <Column id="B_PASS" type="STRING" size="256"/>
+          <Column id="B_COUNT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_File" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Chk" type="STRING" size="256"/>
+          <Column id="FileNm" type="STRING" size="256"/>
+          <Column id="FilePath" type="STRING" size="256"/>
+          <Column id="FileSize" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSize_Byte" type="BIGDECIMAL" size="256"/>
+          <Column id="FileSizeGbn" type="STRING" size="256"/>
+          <Column id="FileIco" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[function getUUID() {
+return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+return v.toString(16);
+}); 
+}
+  
+var uuid = getUUID();
+
+
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{board2.deleteRow(board2.rowposition);
+ds_File.deleteAll();
+	formurl = "Base::boardList.xfdl";
+}
+
+function fn_save(obj:Button,  e:ClickEventInfo)
+{
+	if(Edit00.value==null){
+		alert("작성자를 입력하세요");
+		return;
+	}
+
+
+
+
+
+	
+var svcURL = "DataURL::boardIDU.do?uuid="+uuid;
+	var inDS = "board2=board2";	
+	transaction("save", svcURL, inDS, "", "", "fn_callBack");	
+	
+//	var inDS = "ds_File=ds_File";	
+//	transaction("file", svcURL, inDS, "", "", "fn_callBack");	
+
+}
+
+
+function fn_callBack(svcid, strErrCode, strErrMsg) 
+{
+	if (strErrCode <0) 
+	{
+	//alert("실패했습니다");
+	//	alert(strErrCode + " : " + strErrMsg);
+	   return ;
+	}
+	if (svcid == "file") 
+	{
+		alert("파일을 업로드했습니다");
+	//mainframe.childframe.formurl = "Base::boardList.xfdl";
+	}	
+	if (svcid == "save") 
+	{
+		alert("글이 작성되었습니다.");
+		
+		if(1<=ds_File.rowcount){//파일 업로드
+			upload();
+			ds_File.deleteAll();
+		}else{
+			formurl = "Base::boardList.xfdl";
+		}
+		
+			
+		
+	
+	}	
+	
+	
+}
+
+function boardWrite_onload(obj:Form, e:LoadEventInfo)
+{
+
+
+	board2.addRow();
+}
+
+
+//파일찾기버튼
+function Button02_onclick(obj:Button,  e:ClickEventInfo)
+{
+	fn_FileInfoSet();
+}
+
+//파일추가(드래그)
+function Grid00_ondrop(obj:Grid, e:GridDragEventInfo)
+{
+	var arrDragData = e.dragdata.getData(DragDataFormats.FILEDROP);	
+	fn_FileInfoSet(arrDragData);
+}
+
+//파일정보 세팅
+         
+function fn_FileInfoSet(data)
+{
+	var idx;
+	var nRow;
+	var strFullpath;
+	var vFile;
+	var nFileSize;
+	var arrRet;
+	
+	if( data == undefined ){ // 파일을 드래그 하였을때와 FileDialog로 선택할때를 분기처리	
+		var objFileDlg = new FileDialog();
+		arrRet = objFileDlg.open("FileOpen", FileDialog.MULTILOAD);
+	} else {	
+		arrRet = data;
+	}	
+	
+    if (!arrRet) return;	//파일을 선택하지 않은 경우	
+	
+	for(var i=0; i<arrRet.length; i++)
+	{
+		if( data == undefined )
+			strFullpath = arrRet[i].fullpath;
+		else	
+			strFullpath = arrRet[i];
+
+		nRow = ds_File.findRow("FileNm", fn_getFileName(strFullpath));
+		
+		if (nRow > -1) {
+			alert("중복되는 파일명이 있습니다.\nFile Name : " + fn_getFileName(strFullpath));			
+		} else {		
+			nFileSize = fn_getFileSize(strFullpath).split("/");
+			
+			idx = ds_File.addRow();
+			ds_File.setColumn(idx, "FileNm", fn_getFileName(strFullpath));
+			ds_File.setColumn(idx, "FilePath", strFullpath);
+			ds_File.setColumn(idx, "FileSize", nFileSize[0]);
+			ds_File.setColumn(idx, "FileSizeGbn", nFileSize[1]);
+			ds_File.setColumn(idx, "FileSize_Byte", nFileSize[2]);
+		}	
+	}
+	
+	ds_File.rowposition = 0;
+	Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File.rowcount + "개");	
+}
+//파일명 구하기
+function fn_getFileName(strPath){
+	var i_idx = strPath.lastIndexOf('\\') + 1;
+	var strFileName = "";
+	
+	if (i_idx > 0) 
+		strFileName = strPath.substr(i_idx);
+
+	return strFileName;
+}
+//파일 사이즈 구하기
+function fn_getFileSize(filenm, strUnit) 
+{
+	//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+	if( filenm.indexOf(system.convertRealPath("%DOCUMENT%")) < 0 )
+	{
+		fn_MoveFile(filenm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+		filenm = system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm);		
+	} 
+	
+	var vFile 	  = new VirtualFile;	
+	vFile.open(filenm, VirtualFile.openRead | VirtualFile.openText );
+	
+	var nFileSize =  vFile.getFileSize();
+	if( nFileSize > (1*1024*1024) )
+		nFileSize = Math.round((nFileSize / 1024)/1024,2) + "/MB" +"/"+nFileSize; //Mega byte
+	else if( nFileSize < 1024 )	
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize; //byte
+	else
+		nFileSize = Math.round(nFileSize / 1024,2) + "/KB" +"/"+nFileSize;  //Kilo byte
+			
+	vFile.close();
+ 	VirtualFile.delete(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm)); //임시파일을 지움.
+	
+	
+	return nFileSize;
+}
+	
+	
+	//파일 옮기기 (내문서가 아닐 경우 temp 폴더로 옮김)
+function fn_MoveFile(filenm)
+{
+	fn_ChkFolder();
+	
+	var DownObj;
+	var objExt = new ExtCommon;
+	DownObj = objExt.readFile(system.convertRealPath(filenm), "OBJ");
+	objExt.writeFile(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ fn_getFileName(filenm), DownObj);			
+}
+
+	
+	//내문서경로에 temp폴더 존재여부 체크하여 생성함
+function fn_ChkFolder()
+{
+	var bChk = VirtualFile.isExist(system.convertRealPath("%DOCUMENT%")+"temp\\");	
+	if( !bChk )	
+		VirtualFile.createDirectory(system.convertRealPath("%DOCUMENT%")+"temp\\",true);
+}
+		
+			
+			
+	
+			//파일 전체선택
+function Grid00_onheadclick(obj:Grid, e:GridClickEventInfo)
+{
+	Grid00.enableredraw = false;
+	if( Grid00.getCellText(-1,0) == "" || Grid00.getCellText(-1,0) == false){
+		Grid00.setCellProperty( "Head", 0, "text", 1);				
+		for(var i=0; i<ds_File.rowcount; i++){
+			ds_File.setColumn(i, "Chk", 1 );
+		}
+	} else {
+		Grid00.setCellProperty( "Head", 0, "text", 0);		
+		for(var i=0; i<ds_File.rowcount; i++){
+			ds_File.setColumn(i, "Chk", 0 );
+		}		
+	}	
+	Grid00.enableredraw = true;
+}
+			
+			
+			
+function fileDel_onclick(obj:Button,  e:ClickEventInfo)
+{
+	Grid00.enableredraw = false;
+	for(var i=ds_File.rowcount-1; i>=0; i--){
+		if( ds_File.getColumn(i,"Chk") == true)
+			ds_File.deleteRow(i);
+	}	
+	Grid00.enableredraw = true;
+	
+//summary에 파일개수 표현
+	if( ds_File.rowcount == 0 ) {
+		Grid00.setCellProperty( "Head", 0, "text", 0);
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : 0개");
+	} else {
+		Grid00.setCellProperty( "Summ", 0, "text", "파일 개수 : " + ds_File.rowcount + "개");
+	}
+}
+
+
+
+//업로드 버튼
+//function btn_Upload_onclick(obj:Button,  e:ClickEventInfo)
+function upload()
+{
+	
+	var arrVFile = null; //초기화
+	arrVFile = new Array();
+	var objVirtualFile;  
+	var strFileNm;	
+	var cnt = 0;
+	
+	var objHttpObject = new HttpObject();
+	
+	objHttpObject.onload.setHandler(gfn_httpObject_onload);
+	objHttpObject.retry =1;
+	if(ds_File.getCaseCount("Chk==true")<1){
+		alert("파일 선택이 되지 않아 글만 작성되었습니다.");
+		formurl = "Base::boardList.xfdl";
+		//return;
+	}
+		
+	for(var i=0; i<ds_File.rowcount; i++)
+	{
+		if( ds_File.getColumn(i,"Chk") == true )
+		{
+			objVirtualFile = new VirtualFile(); 
+			strFileNm = ds_File.getColumn(i,"FilePath")
+			
+			//파일의 경로가 "내문서" 폴더인지를 체크하여 분기 처리함. 
+			if( strFileNm.indexOf(system.convertRealPath("%DOCUMENT%")))
+			{
+				fn_MoveFile(strFileNm); //내문서 경로가 아닌 경우 파일을 내문서내의 temp로 폴더로 복사함.
+				strFileNm = system.convertRealPath("%DOCUMENT%")+"temp\\"+ fn_getFileName(strFileNm);
+			}			
+
+			objVirtualFile.open(strFileNm, VirtualFile.openRead| VirtualFile.openBinary);
+			arrVFile[cnt] = objVirtualFile; //VirtualFile을 배열에 저장함. 
+			cnt++;
+		}	
+	}
+
+	var rtn = objHttpObject.upload("DataURL::fileUploadX.do?PATH=upload&uuid="+uuid,FileDialog.LOAD, arrVFile,true);
+	
+	for(var j=0; j<arrVFile.length; j++){	
+		arrVFile[j].close(); //VirtualFile을 close처리
+	}		
+}
+
+
+//업로드버튼끝/////
+
+//HttpObject 이벤트
+var iCnt = 0; //다운로드 완료 여부 체크를 위한 변수
+function gfn_httpObject_onload(obj:HttpObject, e:HttpObjLoadEventInfo) 
+{
+	//trace("----------------------- gfn_httpObject_onload : errorcode = " + e.errorcode + "\n" + "errormsg = " + e.errormsg);
+	if (e.errorcode == 200) { //업로드 완료
+		alert("업로드 완료");
+		var objList = VirtualFile.getFileList(system.convertRealPath("%DOCUMENT%")+"temp\\", "*");
+		for(var i=0; i<objList.length; i++){
+			VirtualFile.delete(system.convertRealPath("%DOCUMENT%")+"\\temp\\"+ objList[i]); //임시파일을 지움.
+		}
+		formurl = "Base::boardList.xfdl";			
+	}
+}
+
+
+
+function btn_Upload_onclick(obj:Button,  e:ClickEventInfo)
+{
+	upload();
+}
+
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="kartList" classname="kartList" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="kartList_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" position2="absolute l:548 w:120 t:56 h:30" positiontype="position2"/>
+        <Static id="Static01" position2="absolute l:680 w:120 t:58 h:30" positiontype="position2" text="의 장바구니입니다."/>
+        <Button id="Button00" taborder="1" text="회원목록으로" position2="absolute l:844 w:94 t:34 h:49" positiontype="position2" onclick="Button00_onclick"/>
+        <Grid id="Grid00" taborder="1" useinputpanel="false" position2="absolute l:48 w:904 t:124 h:572" positiontype="position2" nodatatext="장바구니가 비어있습니다." binddataset="kart">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="174"/>
+                <Column size="374"/>
+                <Column size="109"/>
+                <Column size="225"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="125"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="미리보기"/>
+                <Cell col="1" text="상품명"/>
+                <Cell col="2" text="수량"/>
+                <Cell col="3" text="가격"/>
+              </Band>
+              <Band id="body">
+                <Cell style="background:stretch;background2:stretch;selectbackground:stretch;backgroundimage:BIND(K_THUMNAIL);"/>
+                <Cell col="1" text="bind:K_NAME"/>
+                <Cell col="2" text="bind:K_EA"/>
+                <Cell col="3" text="bind:K_PRICE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Static00" propid="text" datasetid="accviewg" columnid="A_ID"/>
+    </Bind>
+    <Objects>
+      <Dataset id="kart" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="K_TSEQ" type="INT" size="256"/>
+          <Column id="K_NAME" type="STRING" size="256"/>
+          <Column id="K_EA" type="INT" size="256"/>
+          <Column id="K_PRICE" type="INT" size="256"/>
+          <Column id="K_THUMNAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+	formurl = "Base::accountList.xfdl";
+}
+
+function kartList_onload(obj:Form, e:LoadEventInfo)
+{
+	
+			var id =  accviewg.getColumn(0,"A_ID");
+
+	trace(id);
+	//	transaction("트랜잭션의 이름","서버측 주소","input데이터셋","output데이터셋","클라이언트에서 서버측으로 변수를 보내는부분","비동기응답을 받는 함수이름");
+	
+	transaction("getKart"
+	,"DataURL::getKart.do"
+	,"" //서버 데이터셋이름=클라이언트 데이터셋이름 (:u 는 변경한 레코드만 서버로 보냄) 여기서 이클립스로보낼때
+	,"kart=kart" //클라이언트==서버
+	,"sVal1="+id//sVal1 의 변수에 값을넣음 //변수에 공백이있으면 '' 를 이용
+	,"fn_callback");
+	
+}
+]]></Script>
+  </Form>
+</FDL>

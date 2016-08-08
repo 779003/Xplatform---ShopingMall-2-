@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="qnaView" classname="qnaView" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form" onload="qnaView_onload">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="문의보기" onclick="Static00_onclick" position2="absolute l:40 w:120 t:16 h:60" positiontype="position2" style="font:Verdana,18,bold;"/>
+        <Static id="Static01" text="제목" position2="absolute l:60 w:107 t:184 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_title" onclick="Static02_onclick" position2="absolute l:130 w:358 t:175 h:60" positiontype="position2"/>
+        <Static id="Static03" text="작성자" position2="absolute l:322 w:80 t:97 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_name" onclick="Static02_onclick" position2="absolute l:392 w:120 t:88 h:60" positiontype="position2"/>
+        <Static id="Static05" text="날짜" position2="absolute l:506 w:80 t:97 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_date" onclick="Static02_onclick" position2="absolute l:576 w:120 t:88 h:60" positiontype="position2"/>
+        <Static id="Static07" text="답변여부" position2="absolute l:750 w:109 t:97 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_count" onclick="Static02_onclick" position2="absolute l:849 w:120 t:88 h:60" positiontype="position2"/>
+        <Static id="Static09" text="내용" position2="absolute l:57 w:55 t:253 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_content" onclick="Static02_onclick" position2="absolute l:56 w:894 t:316 h:140" positiontype="position2"/>
+        <Button id="Button00" taborder="1" text="목록" onclick="Button00_onclick" position2="absolute l:604 w:115 t:24 h:49" positiontype="position2"/>
+        <Button id="Button02" taborder="1" text="삭제" onclick="fn_delete" position2="absolute l:854 w:115 t:23 h:49" positiontype="position2"/>
+        <Shape id="Shape00" position2="absolute l:57 w:887 t:236 h:20" positiontype="position2"/>
+        <Shape id="Shape01" position2="absolute l:65 w:887 t:136 h:20" positiontype="position2"/>
+        <Shape id="Shape03" onclick="Shape03_onclick" position2="absolute l:504 w:66 t:28 h:52" positiontype="position2" style="transformation:0,0 [rotate -91.747928][translate -42,136];"/>
+        <Shape id="Shape04" position2="absolute l:750 w:66 t:28 h:52" positiontype="position2" style="transformation:0,0 [rotate -91.747928][translate -42,136];"/>
+        <Shape id="Shape05" position2="absolute l:41 w:887 t:456 h:20" positiontype="position2"/>
+        <Grid id="Grid00" taborder="1" binddataset="image" useinputpanel="false" nodatatext="첨부파일이 없습니다." oncellclick="Grid00_oncellclick" position2="absolute l:24 w:945 t:472 h:158" positiontype="position2">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="498"/>
+                <Column size="206"/>
+                <Column size="199"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="89"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="파일명"/>
+                <Cell col="1" text="파일 사이즈"/>
+                <Cell col="2" text="미리보기"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:I_ORINAME"/>
+                <Cell col="1" text="bind:I_SIZE"/>
+                <Cell col="2" style="background:#ddddddff stretch;background2:#ceced0ff stretch;selectbackground:#f7dba8ff stretch;backgroundimage:BIND(I_URL); :blinked {backgroundimage:BIND(I_URL);} :disabled {backgroundimage:BIND(I_URL);} :focused {background:quad;background2:quad;backgroundimage:BIND(I_URL);} :mouseover {backgroundimage:BIND(I_URL);}"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button01" taborder="1" text="답변" onclick="fn_reply" position2="absolute l:479 w:115 t:24 h:49" positiontype="position2"/>
+        <Button id="Button03" taborder="1" text="수정" onclick="fn_update" position2="absolute l:727 w:115 t:23 h:49" positiontype="position2"/>
+        <Edit id="Edit00" taborder="1" onchar="Edit00_onchar" visible="false" position2="absolute l:836 w:140 t:88 h:20" positiontype="position2" style="accessibility:disable all '' '';"/>
+        <Shape id="Shape02" position2="absolute l:310 w:66 t:21 h:52" positiontype="position2" style="transformation:0,0 [rotate -91.747928][translate -42,136];"/>
+        <Button id="Button04" taborder="1" text="상품 보기" position2="absolute l:96 w:132 t:102 h:34" positiontype="position2" onclick="Button04_onclick"/>
+        <Static id="Static02" text="구매여부" position2="absolute l:752 w:109 t:167 h:51" positiontype="position2" style="font:Verdana,14,bold;"/>
+        <Static id="s_count00" onclick="Static02_onclick" position2="absolute l:854 w:120 t:168 h:60" positiontype="position2"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item3" compid="s_title" propid="text" datasetid="qnaviewg" columnid="Q_TITLE"/>
+      <BindItem id="item0" compid="s_name" propid="text" datasetid="qnaviewg" columnid="Q_NAME"/>
+      <BindItem id="item1" compid="s_date" propid="text" datasetid="qnaviewg" columnid="Q_DATE"/>
+      <BindItem id="item2" compid="s_count" propid="text" datasetid="qnaviewg" columnid="Q_STATE"/>
+      <BindItem id="item4" compid="s_content" propid="text" datasetid="qnaviewg" columnid="Q_TITLE"/>
+      <BindItem id="item5" compid="s_count00" propid="text" datasetid="qnaviewg" columnid="Q_BUY"/>
+    </Bind>
+    <Objects>
+      <Dataset id="image" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="I_SEQ" type="INT" size="256"/>
+          <Column id="I_ORINAME" type="STRING" size="512"/>
+          <Column id="I_FILENAME" type="STRING" size="512"/>
+          <Column id="I_SIZE" type="INT" size="256"/>
+          <Column id="I_URL" type="STRING" size="256"/>
+          <Column id="I_UUID" type="STRING" size="256"/>
+          <Column id="I_DELCHK" type="INT" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[
+
+function Button00_onclick(obj:Button,  e:ClickEventInfo)
+{
+	formurl = "Base::qnaList.xfdl";
+}
+
+
+
+function fn_delete(obj:Button,  e:ClickEventInfo)
+{
+
+var num =  qnaviewg.getColumn(0,"Q_NUM");
+		var reChk =  qnaviewg.getColumn(0,"Q_RE_CHK");
+		var seq =  qnaviewg.getColumn(0,"Q_SEQ");
+		
+		if(reChk ==0) { 
+		trace("원글삭제");
+	    transaction("delete","DataURL::deleteQnaOriX.do","" ,"" ,"sVal1="+num,"fn_callback","false");
+	    	
+	    
+		formurl = "Base::qnaList.xfdl";
+		
+		}else{
+		trace("답글삭제");
+		transaction("delete2","DataURL::deleteQnaReX.do?seq="+seq,"" ,"" ,"","fn_callback","false");
+
+		formurl = "Base::qnaList.xfdl";
+		}
+		
+}
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	
+}
+
+function boardView_onload(obj:Form, e:LoadEventInfo)
+{
+	
+}
+
+function fn_reply(obj:Button,  e:ClickEventInfo)
+{//답변
+		formurl = "Base::qnaWriteReply.xfdl";
+}
+
+function fn_update(obj:Button,  e:ClickEventInfo)
+{
+//수정
+
+		
+formurl = "Base::qnaUpdate.xfdl";
+
+	
+	
+}
+
+
+
+
+function Edit00_onchar(obj:Edit,  e:CharEventInfo)
+{
+	
+}
+
+function Button04_onclick(obj:Button,  e:ClickEventInfo)
+{
+	var selectedId= qnaviewg.getColumn(0,"Q_PSEQ");
+	var url = "http://localhost:8778/sample/selectProduct.do?searchKeyword2=not&pageIndex=1&selectedId="+selectedId;
+system.execBrowser(url); 
+}
+function Grid00_oncellclick(obj:Grid, e:GridClickEventInfo)
+{
+	var fileName = image.getColumn(image.rowposition,"I_FILENAME");
+	var fileRealName = image.getColumn(image.rowposition,"I_ORINAME");
+trace(fileName, +"---"+fileRealName);	
+	var url = "http://localhost:8778/sample/fileDownload.do?fileName="+fileName+"&fileRealName="+fileRealName
+trace(url);
+ system.execBrowser(url); //IE에서 실행
+ //system.execShell("http://www.naver.com");//기본브라우저에서 실행
+//	transaction("download"
+//	,url
+//	,"" //서버 데이터셋이름=클라이언트 데이터셋이름 (:u 는 변경한 레코드만 서버로 보냄) 여기서 이클립스로보낼때
+//	,"" //클라이언트==서버
+//	,""//sVal1 의 변수에 값을넣음 //변수에 공백이있으면 '' 를 이용
+//	,"fn_callback");
+
+}
+
+function qnaView_onload(obj:Form, e:LoadEventInfo)
+{
+	
+//trace(var reChk =  image.getColumn(0,"I_URL"));
+	var reChk =  qnaviewg.getColumn(0,"Q_RE_CHK");
+	if(reChk ==0) { 
+	trace("원글");
+	Button03.visible = false;
+	}else{
+	trace("답글");
+	Button01.visible = false;
+}
+
+
+
+	var seq =  qnaviewg.getColumn(0,"Q_UUID");
+
+	
+	//	transaction("트랜잭션의 이름","서버측 주소","input데이터셋","output데이터셋","클라이언트에서 서버측으로 변수를 보내는부분","비동기응답을 받는 함수이름");
+	
+	transaction("getImg"
+	,"DataURL::getImg.do"
+	,"" //서버 데이터셋이름=클라이언트 데이터셋이름 (:u 는 변경한 레코드만 서버로 보냄) 여기서 이클립스로보낼때
+	,"image=image" //클라이언트==서버
+	,"sVal1="+seq//sVal1 의 변수에 값을넣음 //변수에 공백이있으면 '' 를 이용
+	,"fn_callback");
+	
+	
+}
+]]></Script>
+  </Form>
+</FDL>

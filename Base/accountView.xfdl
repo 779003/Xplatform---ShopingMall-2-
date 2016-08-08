@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="accountView" classname="accountView" inheritanceid="" position="absolute 0 0 1024 768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="회원정보" position2="absolute l:108 w:120 t:20 h:60" positiontype="position2"/>
+        <Static id="Static01" text="아이디" position2="absolute l:56 w:53 t:94 h:39" positiontype="position2"/>
+        <Static id="Static02" text="힌트" position2="absolute l:62 w:53 t:141 h:39" positiontype="position2"/>
+        <Static id="Static03" text="답" position2="absolute l:62 w:53 t:185 h:39" positiontype="position2"/>
+        <Static id="Static04" text="이름" position2="absolute l:59 w:53 t:229 h:39" positiontype="position2"/>
+        <Static id="Static05" text="전화" position2="absolute l:56 w:53 t:272 h:39" positiontype="position2"/>
+        <Static id="Static06" text="주소" position2="absolute l:56 w:53 t:313 h:39" positiontype="position2"/>
+        <Static id="Static07" text="적립금" position2="absolute l:54 w:53 t:349 h:39" positiontype="position2"/>
+        <Static id="Static08" position2="absolute l:120 w:153 t:97 h:39" positiontype="position2"/>
+        <Static id="Static09" position2="absolute l:120 w:172 t:140 h:39" positiontype="position2"/>
+        <Static id="Static10" position2="absolute l:120 w:172 t:181 h:39" positiontype="position2"/>
+        <Static id="Static11" position2="absolute l:120 w:172 t:227 h:39" positiontype="position2"/>
+        <Static id="Static12" position2="absolute l:120 w:172 t:267 h:39" positiontype="position2"/>
+        <Static id="Static13" position2="absolute l:120 w:172 t:308 h:39" positiontype="position2"/>
+        <Edit id="Edit00" taborder="1" position2="absolute l:111 w:201 t:356 h:39" positiontype="position2" inputtype="number"/>
+        <Button id="Button00" taborder="1" text="적립금 수정" position2="absolute l:325 w:93 t:354 h:37" positiontype="position2" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="1" text="회원 탈퇴" position2="absolute l:49 w:263 t:398 h:38" positiontype="position2" onclick="Button01_onclick"/>
+        <Button id="gotoList" taborder="1" text="목록으로" position2="absolute l:325 w:93 t:398 h:37" positiontype="position2" onclick="gotoList_onclick"/>
+        <Button id="Button02" taborder="1" text="이 회원의 장바구니 보기" position2="absolute l:50 w:368 t:446 h:35" positiontype="position2" onclick="Button02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Static08" propid="text" datasetid="accviewg" columnid="A_ID"/>
+      <BindItem id="item1" compid="Static09" propid="text" datasetid="accviewg" columnid="A_HINT"/>
+      <BindItem id="item2" compid="Static10" propid="text" datasetid="accviewg" columnid="A_RESPOND"/>
+      <BindItem id="item3" compid="Static11" propid="text" datasetid="accviewg" columnid="A_NAME"/>
+      <BindItem id="item4" compid="Static12" propid="text" datasetid="accviewg" columnid="A_PHONE"/>
+      <BindItem id="item5" compid="Static13" propid="text" datasetid="accviewg" columnid="A_ADRESS"/>
+      <BindItem id="item6" compid="Edit00" propid="value" datasetid="accviewg" columnid="A_CASH"/>
+    </Bind>
+    <Objects>
+      <Dataset id="Account" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="A_ID" type="STRING" size="256"/>
+          <Column id="A_PW" type="STRING" size="256"/>
+          <Column id="A_HINT" type="STRING" size="256"/>
+          <Column id="A_RESPOND" type="STRING" size="256"/>
+          <Column id="A_NAME" type="STRING" size="256"/>
+          <Column id="A_ADRESS" type="STRING" size="256"/>
+          <Column id="A_PHONE" type="STRING" size="256"/>
+          <Column id="A_CASH" type="INT" size="256"/>
+          <Column id="TOTCNT" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript4.0"><![CDATA[
+function Button00_onclick(obj:Button,  e:ClickEventInfo) //적립금 수정
+{var id =  accviewg.getColumn(0,"A_ID");
+	var svcURL = "DataURL::accountUpdateX.do?id="+id;
+	var inDS = "Account=Account";	
+	var cash = Edit00.value;
+	transaction("changeCash", svcURL, inDS, "", "sVal1="+cash, "fn_callBack");	
+}
+
+function fn_callBack(svcid, strErrCode, strErrMsg) 
+{
+	if (strErrCode <0) {
+	alert("실패했습니다");
+		alert(strErrCode + " : " + strErrMsg);
+	   return ;
+	   
+	}
+	
+	if (svcid == "changeCash") {
+		alert("적립금이 수정되었습니다.");
+		
+formurl = "Base::accountView.xfdl";
+	}
+	
+	if (svcid == "deleteAccount") {
+		alert("회원을 탈퇴시켰습니다.");
+		
+		formurl = "Base::accountList.xfdl";
+		
+	}
+	
+}
+
+function gotoList_onclick(obj:Button,  e:ClickEventInfo)
+{
+		formurl = "Base::accountList.xfdl";
+}
+
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	var id =  accviewg.getColumn(0,"A_ID");
+	var svcURL = "DataURL::deleteAccountX.do";
+	//var inDS = "Account=Account";	
+	
+	transaction("deleteAccount", svcURL, "", "", "sVal1="+id, "fn_callBack");	
+}
+
+function Button02_onclick(obj:Button,  e:ClickEventInfo)
+{
+	formurl = "Base::kartList.xfdl";
+}
+]]></Script>
+  </Form>
+</FDL>
